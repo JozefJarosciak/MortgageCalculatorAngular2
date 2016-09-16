@@ -22,6 +22,7 @@ export class AppComponent {
     this.MortgageAmortizationInMonths = 240;
     this.InterestRate = 6.6;
     this.PaymentFrequency = "Monthly";
+    this.pushMe();
   }
 
   pushMe() {
@@ -38,8 +39,8 @@ export class AppComponent {
      */
 
     this.MortgageAmortizationConvertedtoYears = Math.floor(this.MortgageAmortizationInMonths / 12);
-    this.MortgageAmortizationConvertedtoMonths = this.MortgageAmortizationInMonths % 12;
-    this.MonthlyInterestRate = +(Math.pow(1 + ((this.InterestRate/100)/2) , 1/6)-1).toFixed(8);
+    this.MortgageAmortizationConvertedtoMonths = +(this.MortgageAmortizationInMonths % 12).toFixed(0);
+    this.MonthlyInterestRate = +(Math.pow(1 + ((this.InterestRate/100)/2) , 1/6)-1).toFixed(6);
     console.log("MonthlyInterestRate: " + this.MonthlyInterestRate);
 
     /*
