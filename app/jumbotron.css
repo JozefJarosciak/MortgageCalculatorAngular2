@@ -1,0 +1,54 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.newlabel {
+  color: #c1c1c1;
+}
+
+.headingmrtg {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.valuelabel {
+  font-size: 14px;
+  color: #707070;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.labelgroup {
+  border-radius: 12px;
+  font-size: 14px;
+  color: #f7f5f5;
+  background-color: #707070;
+  width: 170px;
+  text-align: left;
+}
+
+.mortgageDetailsLabel {
+  min-width: 240px;
+  text-align: left;
+}
+
+.labelMrtgCalc {
+  text-align: center;
+}
+
+.btn-click {
+  font-weight: bold;
+  background-color: #f7d6d6;
+  color: #605f5f;
+  border-radius: 15px;
+  font-size: 20px;
+  float: left;
+}
+
+.heading-left {
+}
+
