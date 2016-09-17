@@ -28,7 +28,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand headingmrtg" href="#">Canadian Mortgage Calculator</a>
+      <a class="heading-left pageHeader">Canadian Mortgage Calculator</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
     </div>
@@ -46,25 +46,27 @@
   <!-- Example row of columns -->
   <div class="row">
     <div class="col-md-5">
-      <h4 class="heading-left">Mortgage Details</h4>
+      <h4 class="heading-left categoryheader">Mortgage Details</h4>
       <form role="form">
         <div class="form-group">
           <div class="input-group">
             <span class="input-group-addon mortgageDetailsLabel">Mortgage Amount ($)</span>
-            <input [(ngModel)]="MortgageAmount" (ngModelChange)="pushMe()" name="MortgageAmount" type="text" class="form-control labelMrtgCalc" placeholder="e.g. 100000">
+            <input [(ngModel)]="MortgageAmount" (ngModelChange)="pushMe()" name="MortgageAmount" type="number" min="100" class="form-control labelMrtgCalc" placeholder="e.g. 100000">
+            <input class="form-control labelMrtgCalcFormatted" placeholder="{{MortgageAmount | currency:'USD':true:'1.2-2'}}" disabled>
+
           </div>
         </div>
         <div class="form-group">
           <div class="input-group">
             <span class="input-group-addon mortgageDetailsLabel">Mortgage Amortization (months)</span>
-            <input [(ngModel)]="MortgageAmortizationInMonths" (ngModelChange)="pushMe()" name="MortgageAmortizationInMonths" type="text" class="form-control labelMrtgCalc" placeholder="e.g. 300 (25 years)">
-            <h5>{{MortgageAmortizationConvertedtoYears}} years, {{MortgageAmortizationConvertedtoMonths}} months </h5>
+            <input [(ngModel)]="MortgageAmortizationInMonths" (ngModelChange)="pushMe()" name="MortgageAmortizationInMonths" type="number" min="1" class="form-control labelMrtgCalc" placeholder="e.g. 300 (25 years)">
+            <input class="form-control labelMrtgCalcFormatted" placeholder="{{MortgageAmortizationConvertedtoYears}} years, {{MortgageAmortizationConvertedtoMonths}} months" disabled>
           </div>
         </div>
         <div class="input-group">
           <span class="input-group-addon mortgageDetailsLabel">Annual Interest Rate (%)</span>
-          <input [(ngModel)]="InterestRate" (ngModelChange)="pushMe()" name="InterestRate"  type="text" class="form-control labelMrtgCalc" placeholder="e.g. 2.75">
-          <h5>Monthly: {{MonthlyInterestRate*100}}%</h5>
+          <input [(ngModel)]="InterestRate" (ngModelChange)="pushMe()" name="InterestRate"  type="number" min="0" step="0.01" class="form-control labelMrtgCalc" placeholder="e.g. 2.75">
+          <input class="form-control labelMrtgCalcFormatted" placeholder="Monthly: {{MonthlyInterestRate*100}}%" disabled>
         </div>
         <br>
         <div class="form-group">
@@ -72,9 +74,9 @@
             <span class="input-group-addon mortgageDetailsLabel">Payment Frequency</span>
             <select [(ngModel)]="PaymentFrequency" (ngModelChange)="pushMe()" name="PaymentFrequency" id="formInput119" class="form-control">
               <option>Monthly</option>
-              <option>Semi-Monthly</option>
               <option>Weekly</option>
               <option>Bi-Weekly</option>
+              <option>Accelerated Bi-Weekly</option>
             </select>
           </div>
         </div>
@@ -99,18 +101,18 @@
       </div>
     </div>
     <div class="col-md-5">
-      <h4>Mortgage Calculation</h4>
+      <h4 class="heading-left categoryheader">Mortgage Calculation</h4>
       <div class="input-group">
         <span class="input-group-addon labelgroup">Mortgage Payment</span>
-        <h4 class="valuelabel">${{MortgagePayment}} {{PaymentFrequency}}</h4>
+        <h4 class="valuelabel">{{MortgagePayment | currency:'USD':true:'1.2-2'}} {{PaymentFrequency}}</h4>
       </div>
       <div class="input-group">
-        <span class="input-group-addon labelgroup">Total cost of the loan</span>
-        <h4 class="valuelabel">$500</h4>
+        <span class="input-group-addon labelgroup">Total Cost of Loan</span>
+        <h4 class="valuelabel">{{TotalCostofLoan | currency:'USD':true:'1.2-2'}}</h4>
       </div>
       <div class="input-group">
         <span class="input-group-addon labelgroup">Interest Paid for Term</span>
-        <h4 class="valuelabel">$500</h4>
+        <h4 class="valuelabel">{{InterestPaidforTerm | currency:'USD':true:'1.2-2'}}</h4>
       </div>
       <div class="input-group">
         <span class="input-group-addon labelgroup">Extra Payments Saved</span>
@@ -128,7 +130,7 @@
   <div class="jumbotron">
     <div class="container">
       <p>In Canada, loan interest is compounded semi-annually, rather than monthly as it is in the US. Because of the different compounding schedule, monthly payments in Canada are slightly lower than payments in the US, given the same principal, loan term, and nominal interest rate.<br></p>
-      <p>For example, consider a loan of $100,000 for 20 years at an interest rate of 6.6%. When the rate is compounded monthly, you pay $751.47 per month. When the rate is compounded every six months, you pay only $746.22 per month. This is a savings of $5.25 every month, which becomes a total savings of $1,260 over the course of the loan.<br></p>
+      <p>For example, consider a loan of $250,000 for 20 years at an interest rate of 2.20%. When the rate is compounded monthly, you pay $1,288.52 per month. When the rate is compounded every six months, you pay only $1,287.33 per month. This is a savings of $1.19 every month, which becomes a total savings of $357.00 over the course of the loan.<br></p>
     </div>
   </div>
 

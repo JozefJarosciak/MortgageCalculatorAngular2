@@ -15,18 +15,24 @@ export class AppComponent {
   MortgageAmortizationConvertedtoMonths:number;
   MortgagePayment:number;
   PaymentFrequency:string;
+  TotalCostofLoan:number;
+  InterestPaidforTerm:number;
 
   ngOnInit() {
     console.log("--APP Started--");
-    this.MortgageAmount = 100000;
+    this.MortgageAmount = 250000;
     this.MortgageAmortizationInMonths = 240;
-    this.InterestRate = 6.6;
+    this.InterestRate = 2.20;
     this.PaymentFrequency = "Monthly";
     this.pushMe();
   }
 
   pushMe() {
     console.log("--START--");
+
+    // format Mortgage Amount to String
+//    this.MortgageAmountString = currencyFormat(this.MortgageAmount);
+
     //this.results = [];
     //var input:any;
 
@@ -55,15 +61,39 @@ export class AppComponent {
  $746.22(240) - $100,000 = $79,092.80.
  */
 
-    this.MortgagePayment = +(((this.MortgageAmount*this.MonthlyInterestRate)*(Math.pow(1+this.MonthlyInterestRate, this.MortgageAmortizationInMonths))
-     / (Math.pow(1+this.MonthlyInterestRate, this.MortgageAmortizationInMonths)-1)).toFixed(2));
+    // Calculate a Monthly Mortgage Payment first
+    this.MortgagePayment = +(((this.MortgageAmount*this.MonthlyInterestRate)*(Math.pow(1+this.MonthlyInterestRate, this.MortgageAmortizationInMonths)) / (Math.pow(1+this.MonthlyInterestRate, this.MortgageAmortizationInMonths)-1)).toFixed(2));
+    this.TotalCostofLoan = this.MortgagePayment * this.MortgageAmortizationInMonths;
 
-    if (this.PaymentFrequency==="Bi-Weekly") {
+    // Then based on the Monthly Mortgage Payment - calculate the Mortgage Payments and Total Cost of Loan (depending on the selection of payment frequency)
+    if (this.PaymentFrequency==="Weekly") {
+      this.MortgagePayment = +((this.MortgagePayment/4).toFixed(2));
+      this.TotalCostofLoan = (this.MortgagePayment * this.MortgageAmortizationInMonths)*4;
+    } else if (this.PaymentFrequency==="Bi-Weekly") {
+      this.MortgagePayment = +((this.MortgagePayment/2).toFixed(2));
+      this.TotalCostofLoan = (this.MortgagePayment * this.MortgageAmortizationInMonths)*2;
+    } else if (this.PaymentFrequency==="Accelerated Bi-Weekly") {
       this.MortgagePayment = +(((this.MortgagePayment*12)/26).toFixed(2));
+      this.TotalCostofLoan = ((this.MortgagePayment * 26)/12)*this.MortgageAmortizationInMonths;
+    }
+
+    // Calculate Interest Paid for Term
+    this.InterestPaidforTerm = this.TotalCostofLoan - this.MortgageAmount;
+
+    // Fix for Interest rate = 0
+    if (this.InterestRate <= 0) {
+      this.MortgagePayment = this.MortgageAmount/this.MortgageAmortizationInMonths;
+      this.TotalCostofLoan = this.MortgageAmount;
+      this.InterestPaidforTerm = 0;
     }
 
     //
     console.log("MortgagePayment: " + this.MortgagePayment);
     console.log("--END--");
+
+
+    function currencyFormat (num:number) {
+      return "$" + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
   }
 }
