@@ -65,18 +65,24 @@
         </div>
         <div class="input-group">
           <span class="input-group-addon mortgageDetailsLabel">Annual Interest Rate (%)</span>
-          <input [(ngModel)]="InterestRate" (ngModelChange)="pushMe()" name="InterestRate"  type="number" min="0" step="0.01" class="form-control labelMrtgCalc" placeholder="e.g. 2.75">
-          <input class="form-control labelMrtgCalcFormatted" placeholder="Monthly: {{MonthlyInterestRate*100}}%" disabled>
+          <input [(ngModel)]="InterestRate" (ngModelChange)="pushMe()" name="InterestRate" type="number" min="0" step="0.01" class="form-control labelMrtgCalc" placeholder="e.g. 2.75">
+          <input class="form-control labelMrtgCalcFormatted" placeholder="Per Payment: {{InterestRatePerPayment*100}}%" disabled>
         </div>
         <br>
         <div class="form-group">
           <div class="input-group">
             <span class="input-group-addon mortgageDetailsLabel">Payment Frequency</span>
             <select [(ngModel)]="PaymentFrequency" (ngModelChange)="pushMe()" name="PaymentFrequency" id="formInput119" class="form-control">
+              <option>Annually</option>
+              <option>Semi-Annually</option>
+              <option>Quarterly</option>
+              <option>Bi-Monthly</option>
               <option>Monthly</option>
-              <option>Weekly</option>
+              <option>Semi-Monthly</option>
               <option>Bi-Weekly</option>
+              <option>Weekly</option>
               <option>Accelerated Bi-Weekly</option>
+              <option>Accelerated Weekly</option>
             </select>
           </div>
         </div>
@@ -115,8 +121,8 @@
         <h4 class="valuelabel">{{InterestPaidforTerm | currency:'USD':true:'1.2-2'}}</h4>
       </div>
       <div class="input-group">
-        <span class="input-group-addon labelgroup">Extra Payments Saved</span>
-        <h4 class="valuelabel">$500</h4>
+        <span class="input-group-addon labelgroup">Total # of Payments</span>
+        <h4 class="valuelabel">{{TotalNumberofPayments}}</h4>
       </div>
       <div class="input-group">
         <span class="input-group-addon labelgroup">Pay-Off Date</span>
@@ -126,6 +132,30 @@
     </div>
   </div>
   <hr>
+
+
+  <h3>Amortization Schedule</h3>
+
+
+  <table border=1>
+    <thead>
+    <tr>
+      <th>Interest</th>
+      <th>Principal</th>
+      <th>Balance</th>
+    </tr>
+    </thead>
+
+    <tbody *ngFor="let group of groups">
+    <tr *ngFor="let member of group.members">
+      <td>{{ member.interestPaid }}</td>
+      <td>{{ member.towardMortgageBalance }}</td>
+      <td>{{ member.balance }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <br><br>
 
   <div class="jumbotron">
     <div class="container">
@@ -139,14 +169,7 @@
   </footer>
 </div>
 
-<!--
-<h3>Results</h3>
-<ul>
-  <li *ngFor="let result of results">
-    {{ result }}
-  </li>
-</ul>
--->
+
 
 <!-- Bootstrap core JavaScript  ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
