@@ -150,31 +150,17 @@ export class AppComponent {
     var balance:number = this.MortgagePayment;
 
 
-    this.groups =
-      [{members: [
-          { interestPaid: 'John', towardMortgageBalance: 'M', balance: 'M'},
-          { interestPaid: 'Jane', towardMortgageBalance: 'F', balance: 'M'},
-          { interestPaid: 'Jane', towardMortgageBalance: 'F', balance: 'M'}
-        ]
-      },
-      ];
+    //this.groups =[{members: [{ interestPaid: 'John', towardMortgageBalance: 'M', balance: 'M'}]}];
 
 
 
 
     for (var i = 1; i < this.TotalNumberofPayments; i++) {
       interestPaid = balance * this.InterestRatePerPayment;
-      towardMortgageBalance = this.MortgagePayment - interestPaid;
+      towardMortgageBalance = balance - interestPaid;
       balance = this.MortgageAmount - towardMortgageBalance;
 
-      this.groups.members = ({"interestPaid": interestPaid, "towardMortgageBalance": towardMortgageBalance, "balance":balance });
-   //   this.groups.name[0].members[i].towardMortgageBalance = towardMortgageBalance;
-//      this.groups.name[0].members[i].balance = balance;
-
-     // this.groups.push({"interestPaid": interestPaid, "towardMortgageBalance": towardMortgageBalance, balance:balance });
-
-      //this.groups.name[i].members[0]= interestPaid;
-      //this.results[i] =  + "&emsp;" +   + "&emsp;" + balance;
+      this.groups.push({members: [{ interestPaid: interestPaid.toFixed(2), towardMortgageBalance: towardMortgageBalance.toFixed(2), balance: balance.toFixed(2)}]});
     }
 
 
