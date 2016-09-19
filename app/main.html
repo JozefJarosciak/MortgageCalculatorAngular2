@@ -131,15 +131,13 @@
       </div>
     </div>
   </div>
-  <hr>
 
 
-  <h3>Amortization Schedule</h3>
-
-
-  <table border=1>
+  <h4 class="heading-left categoryheader">Amortization Schedule</h4>
+  <table id="customers">
     <thead>
     <tr>
+      <th>Index</th>
       <th>Interest</th>
       <th>Principal</th>
       <th>Balance</th>
@@ -148,9 +146,10 @@
 
     <tbody *ngFor="let group of groups">
     <tr *ngFor="let member of group.members">
-      <td>{{ member.interestPaid }}</td>
-      <td>{{ member.towardMortgageBalance }}</td>
-      <td>{{ member.balance }}</td>
+      <td>{{ member.index }}</td>
+      <td>{{ member.interestPaid | currency:'USD':true:'1.2-2'}}</td>
+      <td>{{ member.towardMortgageBalance | currency:'USD':true:'1.2-2'}}</td>
+      <td>{{ member.balance | currency:'USD':true:'1.2-2'}}</td>
     </tr>
     </tbody>
   </table>

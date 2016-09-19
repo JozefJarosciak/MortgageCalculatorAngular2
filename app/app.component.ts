@@ -51,7 +51,7 @@ export class AppComponent {
   pushMe() {
     console.log("--START--");
 
-
+    this.groups=[];
 
     /*
      Payment Frequency:
@@ -144,16 +144,18 @@ export class AppComponent {
 
     var interestPaid:number;
     var towardMortgageBalance:number;
-    var balance:number = this.MortgagePayment;
+    var balance:number = this.MortgageAmount;
 
 
     //for (var i = 1; i < this.TotalNumberofPayments; i++) {
-      for (var i = 1; i < 5; i++) {
-      interestPaid = balance * this.InterestRatePerPayment;
-      towardMortgageBalance = balance - interestPaid;
-      balance = this.MortgageAmount - towardMortgageBalance;
-
-      this.groups.push({members: [{ interestPaid: +i, towardMortgageBalance: towardMortgageBalance.toFixed(2), balance: balance.toFixed(2),}]});
+      for (var i = 1; i < 3; i++) {
+      interestPaid = balance*this.InterestRatePerPayment;
+      console.log("balance: " + balance + " | InterestRatePerPayment: " + this.InterestRatePerPayment + " | interestPaid: " + interestPaid);
+        balance = balance - interestPaid;
+      console.log("towardMortgageBalance: " + towardMortgageBalance);
+      //balance = balance - towardMortgageBalance;
+      towardMortgageBalance = this.MortgagePayment - interestPaid;
+      this.groups.push({members: [{  index: i, interestPaid: +interestPaid.toFixed(2), towardMortgageBalance: towardMortgageBalance.toFixed(2), balance: balance.toFixed(2)}]});
     }
 
 
