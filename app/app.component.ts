@@ -142,25 +142,18 @@ export class AppComponent {
      The second payment's breakdown is similar except the mortgage balance has decreased. So the portion of the payment going toward interest is now slightly less: $1,040.42 ($249,699.61 * 0.416% = $1,040.42).
      */
 
-
-
-
     var interestPaid:number;
     var towardMortgageBalance:number;
     var balance:number = this.MortgagePayment;
 
 
-    //this.groups =[{members: [{ interestPaid: 'John', towardMortgageBalance: 'M', balance: 'M'}]}];
-
-
-
-
-    for (var i = 1; i < this.TotalNumberofPayments; i++) {
+    //for (var i = 1; i < this.TotalNumberofPayments; i++) {
+      for (var i = 1; i < 5; i++) {
       interestPaid = balance * this.InterestRatePerPayment;
       towardMortgageBalance = balance - interestPaid;
       balance = this.MortgageAmount - towardMortgageBalance;
 
-      this.groups.push({members: [{ interestPaid: interestPaid.toFixed(2), towardMortgageBalance: towardMortgageBalance.toFixed(2), balance: balance.toFixed(2)}]});
+      this.groups.push({members: [{ interestPaid: +i, towardMortgageBalance: towardMortgageBalance.toFixed(2), balance: balance.toFixed(2),}]});
     }
 
 
