@@ -20,7 +20,6 @@ body {
 }
 body, input[text], button {
   color: #888;
-  font-family: Cambria, Georgia;
 }
 a {
   cursor: pointer;
@@ -44,6 +43,38 @@ button:disabled {
   cursor: auto;
 }
 
+.categoryheader{
+  color: #343434;
+  font-weight: bold;
+}
+
+.valuelabel {
+  font-size: 14px;
+  color: #707070;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.top-header-title{
+  font-size: 25px;
+  color: #f84f4f;
+  font-weight: bold;
+}
+
+.mortgageDetailsLabel {
+  min-width: 230px;
+  text-align: left;
+}
+
+.labelgroup {
+  border-radius: 12px;
+  font-size: 14px;
+  color: #FFFFFF;
+  background-color: #707070;
+  width: 190px;
+  text-align: left;
+}
+
 /* Navigation link styles */
 nav a {
   padding: 5px 10px;
@@ -62,6 +93,10 @@ nav a:hover {
 }
 nav a.router-link-active {
   color: #039be5;
+}
+
+.labelgroup {
+  width: 300px;
 }
 
 /* items class */
@@ -166,7 +201,7 @@ nav a.router-link-active {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #4CAF50;
+  background-color: #f88b8c;
   color: white;
 }
 

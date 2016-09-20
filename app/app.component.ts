@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'my-app',
-  templateUrl: 'app/main.html'
+  templateUrl: 'app/index.html'
 })
 
 
@@ -42,16 +42,15 @@ export class AppComponent {
     this.InterestRate = 2.20;
     this.PaymentFrequency = "Monthly";
     this.CompoundPeriod = 2;
-
-
-
+    this.groups=[];
     this.pushMe();
    }
 
   pushMe() {
-    console.log("--START--");
+    console.log("--pushMe() START--");
 
-    this.groups=[];
+    this.MortgageAmortizationConvertedtoYears = Math.floor(this.MortgageAmortizationInMonths / 12);
+    this.MortgageAmortizationConvertedtoMonths = +(this.MortgageAmortizationInMonths % 12).toFixed(0);
 
     /*
      Payment Frequency:
@@ -80,9 +79,11 @@ export class AppComponent {
     if (this.PaymentFrequency==="Accelerated Bi-Weekly") {this.PeriodsPerYear = 26;}
     if (this.PaymentFrequency==="Accelerated Weekly") {this.PeriodsPerYear = 52;}
 
-    this.InterestRatePerPayment = +(((Math.pow(1 + ((this.InterestRate/100)/2) , 1/6)-1) * (12/this.PeriodsPerYear))).toFixed(6);
-
+    // calculate Total Number of Payments (this may need to be reworked for accelerated schedule)
     this.TotalNumberofPayments = this.PeriodsPerYear * (this.MortgageAmortizationInMonths)/12;
+
+    // calculate Interest Rate for each Payment
+    this.InterestRatePerPayment = +(((Math.pow(1 + ((this.InterestRate/100)/2) , 1/6)-1) * (12/this.PeriodsPerYear))).toFixed(6);
 
     /*
      Converting a Semi-Annual Rate to a Monthly Rate
@@ -91,10 +92,6 @@ export class AppComponent {
      For example, if the annual interest rate is R = 0.066 (6.6%), then the monthly rate is
      (1 + 0.033)1/6 - 1 = 0.00542587 (equivalently 0.542587%).
      */
-
-    this.MortgageAmortizationConvertedtoYears = Math.floor(this.MortgageAmortizationInMonths / 12);
-    this.MortgageAmortizationConvertedtoMonths = +(this.MortgageAmortizationInMonths % 12).toFixed(0);
-    //this.MonthlyInterestRate = +(Math.pow(1 + ((this.InterestRate/100)/2) , 1/6)-1).toFixed(6);
 
     /*
  Calculating Monthly Payments and Total Interest
@@ -143,25 +140,26 @@ export class AppComponent {
      */
 
     var interestPaid:number;
-    var towardMortgageBalance:number;
+    var principal:number;
     var balance:number = this.MortgageAmount;
 
 
-    //for (var i = 1; i < this.TotalNumberofPayments; i++) {
-      for (var i = 1; i < 3; i++) {
+    for (var i = 1; i <= this.TotalNumberofPayments; i++) {
+    //  for (var i = 1; i < 5; i++) {
       interestPaid = balance*this.InterestRatePerPayment;
-      console.log("balance: " + balance + " | InterestRatePerPayment: " + this.InterestRatePerPayment + " | interestPaid: " + interestPaid);
-        balance = balance - interestPaid;
-      console.log("towardMortgageBalance: " + towardMortgageBalance);
-      //balance = balance - towardMortgageBalance;
-      towardMortgageBalance = this.MortgagePayment - interestPaid;
-      this.groups.push({members: [{  index: i, interestPaid: +interestPaid.toFixed(2), towardMortgageBalance: towardMortgageBalance.toFixed(2), balance: balance.toFixed(2)}]});
+      //console.log("balance: " + balance + " | InterestRatePerPayment: " + this.InterestRatePerPayment + " | interestPaid: " + interestPaid);
+      //console.log("towardMortgageBalance: " + principal);
+      principal = this.MortgagePayment - interestPaid;
+      balance = balance - principal;
+      this.groups.push({members: [{  index: i, payment:this.MortgagePayment.toFixed(2),interestPaid: +interestPaid.toFixed(2), principal: principal.toFixed(2), balance: balance.toFixed(2)}]});
     }
 
 
     //
     console.log("MortgagePayment: " + this.MortgagePayment);
-    console.log("--END--");
+    console.log("--pushMe() END--");
+
+  
 
 
     function currencyFormat (num:number) {
