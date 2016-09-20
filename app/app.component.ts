@@ -42,13 +42,12 @@ export class AppComponent {
     this.InterestRate = 2.20;
     this.PaymentFrequency = "Monthly";
     this.CompoundPeriod = 2;
-    this.groups=[];
     this.pushMe();
    }
 
   pushMe() {
     console.log("--pushMe() START--");
-
+    this.groups=[];
     this.MortgageAmortizationConvertedtoYears = Math.floor(this.MortgageAmortizationInMonths / 12);
     this.MortgageAmortizationConvertedtoMonths = +(this.MortgageAmortizationInMonths % 12).toFixed(0);
 
@@ -143,7 +142,7 @@ export class AppComponent {
     var principal:number;
     var balance:number = this.MortgageAmount;
 
-
+if ((this.MortgageAmount>=10) && (this.MortgageAmortizationInMonths<=360))  {
     for (var i = 1; i <= this.TotalNumberofPayments; i++) {
     //  for (var i = 1; i < 5; i++) {
       interestPaid = balance*this.InterestRatePerPayment;
@@ -153,13 +152,13 @@ export class AppComponent {
       balance = balance - principal;
       this.groups.push({members: [{  index: i, payment:this.MortgagePayment.toFixed(2),interestPaid: +interestPaid.toFixed(2), principal: principal.toFixed(2), balance: balance.toFixed(2)}]});
     }
-
+}
 
     //
     console.log("MortgagePayment: " + this.MortgagePayment);
     console.log("--pushMe() END--");
 
-  
+
 
 
     function currencyFormat (num:number) {

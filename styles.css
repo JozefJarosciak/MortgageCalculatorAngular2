@@ -71,7 +71,7 @@ button:disabled {
   font-size: 14px;
   color: #FFFFFF;
   background-color: #707070;
-  width: 190px;
+  width: 165px;
   text-align: left;
 }
 
@@ -93,10 +93,6 @@ nav a:hover {
 }
 nav a.router-link-active {
   color: #039be5;
-}
-
-.labelgroup {
-  width: 300px;
 }
 
 /* items class */
