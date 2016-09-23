@@ -61,9 +61,27 @@ button:disabled {
   font-weight: bold;
 }
 
+.jumbotext {
+  font-size: 10px;
+}
+
 .mortgageDetailsLabel {
-  min-width: 230px;
+  min-width: 190px;
   text-align: left;
+  white-space: pre-line;
+  font-size: 14px;
+  }
+
+.labelMrtgCalcFormatted{
+  font-size: 11px;
+  text-align: left;
+}
+
+.labelMrtgCalc{
+  font-size: 14px;
+  text-align: left;
+  color: #f84f4f;
+  font-weight: bold;
 }
 
 .labelgroup {
@@ -199,6 +217,65 @@ nav a.router-link-active {
   text-align: left;
   background-color: #f88b8c;
   color: white;
+}
+
+
+/* Tooltip styling */
+[data-tooltip]:before {
+  content: attr(data-tooltip);
+  display: none;
+  position: absolute;
+  background: #f8d7dc;
+  color: #343434;
+  padding: 3px 6px;
+  font-size: 12px;
+  line-height: 1.4;
+  min-width: 330px;
+  text-align: left;
+  border-radius: 4px;
+}
+/* Dynamic horizontal centering */
+[data-tooltip-position="bottom"]:before {
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+[data-tooltip-position="bottom"]:before {
+  top: 100%;
+  margin-top: 6px;
+}
+
+/* Tooltip arrow styling/placement */
+[data-tooltip]:after {
+  content: '';
+  display: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+/* Dynamic horizontal centering for the tooltip */
+[data-tooltip-position="top"]:after,
+[data-tooltip-position="bottom"]:after {
+  left: 50%;
+  margin-left: -6px;
+}
+
+[data-tooltip-position="bottom"]:after {
+  top: 100%;
+  border-width: 0 6px 6px;
+  border-bottom-color: #000;
+}
+
+/* Show the tooltip when hovering */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  display: block;
+  z-index: 40;
 }
 
 

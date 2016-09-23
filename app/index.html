@@ -18,7 +18,7 @@
       <form role="form">
         <div class="form-group">
           <div class="input-group">
-            <span class="input-group-addon mortgageDetailsLabel">Mortgage Amount ($)</span>
+            <span class="input-group-addon mortgageDetailsLabel" data-tooltip="This is not the sale price of the home. It's the amount you have borrowed." data-tooltip-position="bottom">Mortgage Amount ($)</span>
             <input [(ngModel)]="MortgageAmount" (ngModelChange)="pushMe()" name="MortgageAmount" type="number" min="100" max="999999999" class="form-control labelMrtgCalc" placeholder="e.g. 100000">
             <input class="form-control labelMrtgCalcFormatted" placeholder="{{MortgageAmount | currency:'USD':true:'1.2-2'}}" disabled>
 
@@ -26,20 +26,35 @@
         </div>
         <div class="form-group">
           <div class="input-group">
-            <span class="input-group-addon mortgageDetailsLabel">Mortgage Amortization (months)</span>
-            <input [(ngModel)]="MortgageAmortizationInMonths" (ngModelChange)="pushMe()" name="MortgageAmortizationInMonths" type="number" min="1" class="form-control labelMrtgCalc" placeholder="e.g. 300 (25 years)">
-            <input class="form-control labelMrtgCalcFormatted" placeholder="{{MortgageAmortizationConvertedtoYears}} years, {{MortgageAmortizationConvertedtoMonths}} months" disabled>
+            <span class="input-group-addon mortgageDetailsLabel" data-tooltip="The total number of months, it'll take to pay off the mortgage. E.g. 10 years = 120 months." data-tooltip-position="bottom">Mortgage Amortization (Months)</span>
+            <input [(ngModel)]="MortgageAmortizationInMonths" (ngModelChange)="pushMe()" name="MortgageAmortizationInMonths" type="number" min="1" class="form-control labelMrtgCalc" placeholder="e.g. 120 (10 yrs.)">
+            <input class="form-control labelMrtgCalcFormatted" placeholder="{{MortgageAmortizationConvertedtoYears}} yrs., {{MortgageAmortizationConvertedtoMonths}} mth." disabled>
           </div>
         </div>
         <div class="input-group">
-          <span class="input-group-addon mortgageDetailsLabel">Annual Interest Rate (%)</span>
+          <span class="input-group-addon mortgageDetailsLabel" data-tooltip="Nominal interest rate as quoted by the lender. Canadian mortgages are compounded semi-annually." data-tooltip-position="bottom">Annual Interest Rate (%)</span>
           <input [(ngModel)]="InterestRate" (ngModelChange)="pushMe()" name="InterestRate" type="number" min="0" max="100" step="0.01" class="form-control labelMrtgCalc" placeholder="e.g. 2.75">
           <input class="form-control labelMrtgCalcFormatted" placeholder="Per Payment: {{InterestRatePerPayment*100}}%" disabled>
         </div>
         <br>
+        <div class="input-group">
+          <span class="input-group-addon mortgageDetailsLabel" data-tooltip="First Payment Date is the first payment date. Mortgage calculation assumes the end of the first period." data-tooltip-position="bottom">First Payment Date</span>
+          <input [(ngModel)]="FirstPaymentDate" (ngModelChange)="pushMe()" name="FirstPaymentDate" type="date" value="{{FirstPaymentDate}}" class="form-control labelMrtgCalc">
+        </div>
+        <br>
         <div class="form-group">
           <div class="input-group">
-            <span class="input-group-addon mortgageDetailsLabel">Payment Frequency</span>
+            <span class="input-group-addon mortgageDetailsLabel" data-tooltip="Determines the number of payments per year.&#013;
+            Annually:      1 (once a year)&#013;
+            Semi-Annually: 2 (twice a year)&#013;
+            Quarterly:     4 times a year&#013;
+            Bi-Monthly:    6 times a year&#013;
+            Monthly:       12 times a year&#013;
+            Semi-Monthly:  24 times a year (2 times per month)&#013;
+            Bi-Weekly:     26 times a year (once every 2 weeks)&#013;
+            Weekly:        52 times a year (once a week)&#013;
+            Acc Bi-Weekly: 26 times a year. 1/2 of monthly payment&#013;
+            Acc Weekly:    52 times a year. 1/4 of monthly payment" data-tooltip-position="bottom">Payment Frequency</span>
             <select [(ngModel)]="PaymentFrequency" (ngModelChange)="pushMe()" name="PaymentFrequency" id="formInput119" class="form-control">
               <option>Annually</option>
               <option>Semi-Annually</option>
@@ -49,8 +64,8 @@
               <option>Semi-Monthly</option>
               <option>Bi-Weekly</option>
               <option>Weekly</option>
-              <option>Accelerated Bi-Weekly</option>
-              <option>Accelerated Weekly</option>
+              <option>Acc. Bi-Weekly</option>
+              <option>Acc. Weekly</option>
             </select>
           </div>
         </div>
@@ -95,8 +110,8 @@
       </div>
       <div class="input-group">
         <span class="input-group-addon labelgroup">Pay-Off Date</span>
-        <h4 class="valuelabel">Sept, 2016</h4>
-        <h3 class="valuelabel">10 years 0 days</h3>
+        <h4 class="valuelabel">{{PayOffDate}}</h4>
+        <h3 class="valuelabel">{{PayOffDateDiff}}</h3>
       </div>
     </div>
   </div>
@@ -107,6 +122,7 @@
     <thead>
     <tr>
       <th>No.</th>
+      <th>Due Date</th>
       <th>Payment</th>
       <th>Interest</th>
       <th>Principal</th>
@@ -117,6 +133,7 @@
     <tbody *ngFor="let group of groups">
     <tr *ngFor="let member of group.members">
       <td>{{ member.index }}</td>
+      <td>{{ member.duedate }}</td>
       <td>{{ member.payment | currency:'USD':true:'1.2-2'}}</td>
       <td>{{ member.interestPaid | currency:'USD':true:'1.2-2'}}</td>
       <td>{{ member.principal | currency:'USD':true:'1.2-2'}}</td>
@@ -127,12 +144,12 @@
 
   <br><br>
 
-  <div class="jumbotron">
     <div class="container">
       <p>In Canada, loan interest is compounded semi-annually, rather than monthly as it is in the US. Because of the different compounding schedule, monthly payments in Canada are slightly lower than payments in the US, given the same principal, loan term, and nominal interest rate.<br></p>
       <p>For example, consider a loan of $250,000 for 20 years at an interest rate of 2.20%. When the rate is compounded monthly, you pay $1,288.52 per month. When the rate is compounded every six months, you pay only $1,287.33 per month. This is a savings of $1.19 every month, which becomes a total savings of $357.00 over the course of the loan.<br></p>
     </div>
-  </div>
+
+  <br><br>
 
   <footer>
     <p>© ETX Software Inc. 2016</p>
