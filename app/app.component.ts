@@ -30,6 +30,7 @@ export class AppComponent {
   AdjustDateByStr:any;
   PayOffDate:any;
   PayOffDateDiff:any;
+  extraPayment:any;
   /*
    Compound Period:
    The number of times per year that the interest is compounded.
@@ -42,7 +43,6 @@ export class AppComponent {
    */
 
   ngOnInit() {
-    console.log("--APP Started--");
     this.MortgageAmount = 100000;
     this.MortgageAmortizationInMonths = 120;
     this.InterestRate = 2.00;
@@ -58,7 +58,7 @@ export class AppComponent {
   }
 
   pushMe() {
-    console.log("--pushMe() START--");
+    console.log("--START--");
 
     this.groups = [];
     this.MortgageAmortizationConvertedtoYears = Math.floor(this.MortgageAmortizationInMonths / 12);
@@ -203,17 +203,10 @@ export class AppComponent {
     var finalDate:any;
     var finalDate2:any;
     var dueDate = new Date(Date.parse(this.FirstPaymentDate));
-    var semiMonthlyToggle:number = 0;
 
     if ((this.MortgageAmount >= 10) && (this.MortgageAmortizationInMonths <= 360)) {
       for (var i = 1; i <= numberofPayments; i++) {
-
-      //  dueDate = moment(dueDate).add(this.AdjustDateBy, this.AdjustDateByStr).format('MMMM Do YYYY');
-
-        //  for (var i = 1; i < 5; i++) {
         interestPaid = balance * this.InterestRatePerPayment;
-        //console.log("balance: " + balance + " | InterestRatePerPayment: " + this.InterestRatePerPayment + " | interestPaid: " + interestPaid);
-        //console.log("towardMortgageBalance: " + principal);
         principal = this.MortgagePayment - interestPaid;
 
         if (this.PaymentFrequency === "Semi-Monthly") {
@@ -235,7 +228,7 @@ export class AppComponent {
           this.groups.push({
             members: [{
               index: i,
-              duedate:finalDate,
+              due:finalDate,
               payment: mortgagePayment.toFixed(2),
               interestPaid: interestPaid.toFixed(2),
               principal: balance.toFixed(2),
@@ -251,7 +244,7 @@ export class AppComponent {
          this.groups.push({
             members: [{
               index: i,
-              duedate:finalDate,
+              due:finalDate,
               payment: mortgagePayment.toFixed(2),
               interestPaid: interestPaid.toFixed(2),
               principal: principal.toFixed(2),
@@ -267,7 +260,7 @@ export class AppComponent {
             this.groups.push({
               members: [{
                 index: i+1,
-                duedate:finalDate,
+                due:finalDate,
                 payment: (interestPaid + balance).toFixed(2),
                 interestPaid: interestPaid.toFixed(2),
                 principal: balance.toFixed(2),
@@ -302,8 +295,8 @@ export class AppComponent {
 
      // console.log("a: " + a + " | " + "b: " + b);
       var dateObj = new Date(Date.parse(finalDate2));
-      this.PayOffDateDiff =  moment.duration(moment(dueDate).diff(moment(dateObj))).years().toString().replace("-","") + " years, " +
-        moment.duration(moment(dueDate).diff(moment(dateObj))).months().toString().replace("-","") + " months and " +
+      this.PayOffDateDiff =  moment.duration(moment(dueDate).diff(moment(dateObj))).years().toString().replace("-","") + " yrs, " +
+        moment.duration(moment(dueDate).diff(moment(dateObj))).months().toString().replace("-","") + " mth, " +
         moment.duration(moment(dueDate).diff(moment(dateObj))).days().toString().replace("-","") + " days";
       //console.log("--Zaciatok:" + moment(dueDate) + "--Koniec:" + moment(dateObj));
 
@@ -325,13 +318,7 @@ export class AppComponent {
 
     //
    // console.log("MortgagePayment: " + this.MortgagePayment);
-    // console.log("--pushMe() END--");
-
-
-
-
-
-
+    console.log("--END--");
   }
 
 
