@@ -7,12 +7,20 @@
   </div>
 <br><br>
 
-<div class="container">
-  <!-- Example row of columns -->
 
+   <div class="container">
 
   <div class="row">
-    <div class="col-md-5">
+
+    <div class="jumbotron">
+      <div class="container">
+        <p>In Canada, loan interest is compounded semi-annually, rather than monthly as it is in the US. Because of the different compounding schedule, monthly payments in Canada are slightly lower than payments in the US, given the same principal, loan term, and nominal interest rate.</p>
+        <!--  <p class="jumbotext">For example, consider a loan of $250,000 for 20 years at an interest rate of 2.20%. When the rate is compounded monthly, you pay $1,288.52 per month. When the rate is compounded every six months, you pay only $1,287.33 per month. This is a savings of $1.19 every month, which becomes a total savings of $357.00 over the course of the loan.<br></p> -->
+      </div>
+    </div>
+
+
+    <div class="col-md-6">
       <h4 class="heading-left categoryheader">Mortgage Details</h4>
       <p>Enter your mortgage details:</p>
       <form role="form">
@@ -111,7 +119,7 @@
         </ul>
       </div>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-6">
       <h4 class="heading-left categoryheader">Mortgage Calculation</h4>
       <p>Results of your mortgage calculation:</p>
       <div class="input-group">
@@ -136,14 +144,25 @@
         <h3 class="valuelabel">{{PayOffDateDiff}}</h3>
       </div>
     </div>
+
+
+    <div class="col-md-5">
+      <br>
+      <h4 class="heading-left categoryheader">Mortgage Pie Chart</h4>
+      <p-chart type="pie" [data]="datapie"></p-chart>
+    </div>
+
   </div>
 
 
+  <div class="row">
 
 
+    <h4 class="heading-left categoryheader">Mortgage Bar Chart</h4>
+    <p>Results of your mortgage calculation:</p>
   <p-chart type="bar" [data]="data"></p-chart>
 
-
+  </div>
 
 
 <br>
@@ -179,12 +198,6 @@
     </tbody>
   </table>
 
-  <br><br>
-
-    <div class="container">
-      <p>In Canada, loan interest is compounded semi-annually, rather than monthly as it is in the US. Because of the different compounding schedule, monthly payments in Canada are slightly lower than payments in the US, given the same principal, loan term, and nominal interest rate.<br></p>
-      <p>For example, consider a loan of $250,000 for 20 years at an interest rate of 2.20%. When the rate is compounded monthly, you pay $1,288.52 per month. When the rate is compounded every six months, you pay only $1,287.33 per month. This is a savings of $1.19 every month, which becomes a total savings of $357.00 over the course of the loan.<br></p>
-    </div>
 
   <br><br>
 

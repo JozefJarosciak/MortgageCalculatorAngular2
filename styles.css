@@ -48,14 +48,12 @@ button:disabled {
 
 
 .top-header-title{
-  font-size: 25px;
+  font-size: 28px;
   color: #f84f4f;
   font-weight: bold;
 }
 
-.jumbotext {
-  font-size: 10px;
-}
+
 
 .mortgageDetailsLabel {
   min-width: 180px;

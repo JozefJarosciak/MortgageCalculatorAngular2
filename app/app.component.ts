@@ -17,7 +17,7 @@ export class AppComponent {
 
 
   data: any;
-
+  datapie: any;
 
 
   results:any = [];
@@ -403,6 +403,26 @@ export class AppComponent {
 
       ]
     }
+
+
+    this.datapie = {
+      labels: ['Total Cost of Loan','Interest Paid for Term'],
+      datasets: [
+        {
+          data: [this.MortgageAmount, interestPaidFinal.toFixed(2)],
+          backgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56"
+          ],
+          hoverBackgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56"
+          ]
+        }]
+    };
+
 
 
     // Error checking
