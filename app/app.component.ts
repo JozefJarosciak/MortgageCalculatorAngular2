@@ -2,13 +2,37 @@ import {Component} from '@angular/core';
 import _for = require("core-js/fn/symbol/for");
 import * as moment from 'moment/moment';
 
+
+//let template = require('./bar-chart-demo.html');
+
 @Component({
   selector: 'my-app',
-  templateUrl: 'app/index.html'
+  templateUrl: 'app/index.html',
 })
 
 
 export class AppComponent {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   results:any = [];
   groups:any = [];
   MortgageAmount:number;
@@ -21,7 +45,6 @@ export class AppComponent {
   PaymentFrequency:string;
   TotalCostofLoan:number;
   InterestPaidforTerm:number;
-  CompoundPeriod:number;
   InterestRatePerPayment:number;
   PeriodsPerYear:number;
   TotalNumberofPayments:number;
@@ -30,7 +53,11 @@ export class AppComponent {
   AdjustDateByStr:any;
   PayOffDate:any;
   PayOffDateDiff:any;
-  extraPayment:any;
+  ExtraPayment:any;
+  PaymentInterval:any;
+  ExtraAnnualPayment:any;
+
+  CompoundPeriod:number;
   /*
    Compound Period:
    The number of times per year that the interest is compounded.
@@ -43,6 +70,8 @@ export class AppComponent {
    */
 
   ngOnInit() {
+
+    // Initialize all the preconfigured values on the first load
     this.MortgageAmount = 100000;
     this.MortgageAmortizationInMonths = 120;
     this.InterestRate = 2.00;
@@ -50,14 +79,16 @@ export class AppComponent {
     this.CompoundPeriod = 2;
     this.FirstPaymentDate = TodaysDate();
 
-    this.pushMe();
+    // Initialize Extra Payment values
+    this.ExtraPayment = 1000;
+    this.PaymentInterval = 1;
+    this.ExtraAnnualPayment = 10000;
 
-
-
-
+    // Start the calculation
+    this.calculateMortgage();
   }
 
-  pushMe() {
+  calculateMortgage() {
     console.log("--START--");
 
     this.groups = [];
@@ -196,6 +227,10 @@ export class AppComponent {
 
     var interestPaid:number;
     var principal:number;
+    var paymentInterval:number = this.PaymentInterval;
+    var extraPayment:number = this.ExtraPayment;
+    var extraAnnualPayment:number = this.ExtraAnnualPayment;
+    var extraPaymentFinal:number = 0;
     var balance:number = this.MortgageAmount;
     var mortgagePayment:number = this.MortgagePayment;
     var interestPaidFinal:number = 0;
@@ -205,9 +240,28 @@ export class AppComponent {
     var dueDate = new Date(Date.parse(this.FirstPaymentDate));
 
     if ((this.MortgageAmount >= 10) && (this.MortgageAmortizationInMonths <= 360)) {
+
       for (var i = 1; i <= numberofPayments; i++) {
+
         interestPaid = balance * this.InterestRatePerPayment;
-        principal = this.MortgagePayment - interestPaid;
+        principal = (this.MortgagePayment - interestPaid);
+
+        extraPaymentFinal = 0;
+        // add extra payments
+        if ( i && (i % paymentInterval === 0)) {
+          principal = principal + extraPayment;
+          extraPaymentFinal = extraPayment;
+        }
+
+        if ( i && (i % this.PeriodsPerYear === 0)) {
+          principal = principal + extraAnnualPayment;
+          extraPaymentFinal = extraPaymentFinal + extraAnnualPayment;
+        }
+
+
+       // console.log("--extraPaymentflag:" + extraPaymentflag);
+
+
 
         if (this.PaymentFrequency === "Semi-Monthly") {
          if (i % 2 === 1) {
@@ -223,16 +277,44 @@ export class AppComponent {
         }
 
 
+
+        //if ((this.PaymentFrequency === "Acc. Bi-Weekly") || (this.PaymentFrequency === "Acc. Weekly") ) {
+        if (balance<principal) {
+
+          finalDate = moment(dueDate).utc().add(this.AdjustDateBy*(i), this.AdjustDateByStr).format('MMMM Do YYYY');
+
+          this.groups.push({
+            members: [{
+              indexArray: i,
+              dueArray:finalDate,
+              paymentArray: (interestPaid + balance).toFixed(2),
+              extraPaymentArray:0,
+              interestPaidArray: interestPaid.toFixed(2),
+              principalArray: balance.toFixed(2),
+              balanceArray: 0
+            }]
+          });
+          mortgagePayment =  interestPaid + balance;
+          principal = balance;
+          balance = 0;
+          this.TotalNumberofPayments = i+1;
+          interestPaidFinal = interestPaidFinal+interestPaid;
+          break;
+        }
+        // }
+
+
         if (i===numberofPayments) {
           mortgagePayment =  interestPaid + balance;
           this.groups.push({
             members: [{
-              index: i,
-              due:finalDate,
-              payment: mortgagePayment.toFixed(2),
-              interestPaid: interestPaid.toFixed(2),
-              principal: balance.toFixed(2),
-              balance: 0
+              indexArray: i,
+              dueArray:finalDate,
+              paymentArray: mortgagePayment.toFixed(2),
+              extraPaymentArray:extraPaymentFinal.toFixed(2),
+              interestPaidArray: interestPaid.toFixed(2),
+              principalArray: balance.toFixed(2),
+              balanceArray: 0
             }]
           });
           interestPaidFinal = interestPaidFinal+interestPaid;
@@ -243,38 +325,24 @@ export class AppComponent {
           balance = balance - principal;
          this.groups.push({
             members: [{
-              index: i,
-              due:finalDate,
-              payment: mortgagePayment.toFixed(2),
-              interestPaid: interestPaid.toFixed(2),
-              principal: principal.toFixed(2),
-              balance: balance.toFixed(2)
+              indexArray: i,
+              dueArray:finalDate,
+              paymentArray: mortgagePayment.toFixed(2),
+              extraPaymentArray:extraPaymentFinal.toFixed(2),
+              interestPaidArray: interestPaid.toFixed(2),
+              principalArray: principal.toFixed(2),
+              balanceArray: balance.toFixed(2)
             }]
           });
           interestPaidFinal = interestPaidFinal+interestPaid;
+
+
+
+
       }
 
 
-        if ((this.PaymentFrequency === "Acc. Bi-Weekly") || (this.PaymentFrequency === "Acc. Weekly")) {
-          if (balance<principal) {
-            this.groups.push({
-              members: [{
-                index: i+1,
-                due:finalDate,
-                payment: (interestPaid + balance).toFixed(2),
-                interestPaid: interestPaid.toFixed(2),
-                principal: balance.toFixed(2),
-                balance: 0
-              }]
-            });
-            mortgagePayment =  interestPaid + balance;
-            principal = balance;
-            balance = 0;
-            this.TotalNumberofPayments = i+1;
-            interestPaidFinal = interestPaidFinal+interestPaid;
-            break;
-          }
-        }
+
 
 
         if (principal>balance) {

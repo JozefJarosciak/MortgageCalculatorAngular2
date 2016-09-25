@@ -58,24 +58,38 @@ button:disabled {
 }
 
 .mortgageDetailsLabel {
-  min-width: 185px;
+  min-width: 180px;
   text-align: left;
   white-space: pre-line;
-  font-size: 14px;
+  font-size: 12px;
   }
+
+
+.labelMrtgCalc{
+  font-size: 12px;
+  text-align: left;
+  color: #f84f4f;
+  font-weight: bold;
+  min-width: 180px;
+  max-height: 30px;
+}
+
+
+.mortgageDetailsLabelsm {
+  min-width: 5px;
+  max-width: 5px;
+  text-align: left;
+  white-space: pre-line;
+  font-size: 12px;
+}
+
 
 .labelMrtgCalcFormatted{
   font-size: 11px;
   text-align: left;
+  height: 20px;
 }
 
-.labelMrtgCalc{
-  font-size: 14px;
-  text-align: left;
-  color: #f84f4f;
-  font-weight: bold;
-  min-width: 200px;
-}
 
 .categoryheader{
   color: #343434;
@@ -83,11 +97,11 @@ button:disabled {
 }
 
 .valuelabel {
-  font-size: 15px;
+  font-size: 13px;
   color: #707070;
   padding-left: 10px;
   text-align: left;
-  min-width: 200px;
+  min-width: 180px;
 }
 
 .labelgroup {
@@ -95,7 +109,7 @@ button:disabled {
   font-size: 14px;
   color: #FFFFFF;
   background-color: #707070;
-  min-width: 185px;
+  min-width: 180px;
   text-align: left;
 }
 
