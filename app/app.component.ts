@@ -87,26 +87,7 @@ export class AppComponent {
   calculateMortgage() {
     console.log("--START--");
 
-    // Error checking
-    var dateCheck:any = moment(new Date(Date.parse(this.FirstPaymentDate))).utc().add(this.AdjustDateBy * (i - 1), this.AdjustDateByStr).format('MMMM Do YYYY');
-    if ((isNaN(this.MortgageAmount) === true) || (this.MortgageAmount < 0)){this.MortgageAmount = 0;}
-    if ((isNaN(this.MortgageAmortizationInMonths) === true) || (this.MortgageAmortizationInMonths < 0)){this.MortgageAmortizationInMonths = 0;}
-    if ((isNaN(this.InterestRate) === true) || (this.InterestRate < 0)){this.InterestRate = 0;}
-    if ((isNaN(this.ExtraPayment) === true) || (this.ExtraPayment < 0)){this.ExtraPayment = 0;}
-    if ((isNaN(this.PaymentInterval) === true) || (this.PaymentInterval < 0)){this.PaymentInterval = 0;}
-    if ((isNaN(this.ExtraPayment) === true) || (this.ExtraPayment < 0)){this.ExtraPayment = 0;}
 
-    if ((isNaN(this.MortgagePayment) === true) || (this.MortgagePayment < 0)) {this.MortgagePayment = 0;}
-    if ((isNaN(this.TotalCostofLoan) === true) || (this.TotalCostofLoan < 0)) {this.TotalCostofLoan = 0;}
-    if ((isNaN(this.ExtraAnnualPayment) === true) || (this.ExtraAnnualPayment < 0)) {this.ExtraAnnualPayment = 0;}
-    if (dateCheck.indexOf("Invalid date") >-1){this.FirstPaymentDate = TodaysDate();}
-
-    if (this.TotalNumberofPayments < 1) {
-   this.PayOffDate = "";
-   this.PayOffDateDiff = "";
-   this.TotalNumberofPayments = 0;
-  // return;
- }
 
 
     this.groups = [];
@@ -439,9 +420,39 @@ export class AppComponent {
 
 
 
-    //
-    // console.log("MortgagePayment: " + this.MortgagePayment);
+    // Error checking
+    var dateCheck:any = moment(new Date(Date.parse(this.FirstPaymentDate))).utc().add(this.AdjustDateBy * (i - 1), this.AdjustDateByStr).format('MMMM Do YYYY');
+    if ((isNaN(this.MortgageAmount) === true) || (this.MortgageAmount < 0)){this.MortgageAmount = 0;}
+    if ((isNaN(this.MortgageAmortizationInMonths) === true) || (this.MortgageAmortizationInMonths < 0)){this.MortgageAmortizationInMonths = 0;}
+    if ((isNaN(this.InterestRate) === true) || (this.InterestRate < 0)){this.InterestRate = 0;}
+    if ((isNaN(this.ExtraPayment) === true) || (this.ExtraPayment < 0)){this.ExtraPayment = 0;}
+    if ((isNaN(this.PaymentInterval) === true) || (this.PaymentInterval < 0)){this.PaymentInterval = 0;}
+    if ((isNaN(this.ExtraPayment) === true) || (this.ExtraPayment < 0)){this.ExtraPayment = 0;}
+    if ((isNaN(this.MortgagePayment) === true) || (this.MortgagePayment < 0)) {this.MortgagePayment = 0;}
+    if ((isNaN(this.TotalCostofLoan) === true) || (this.TotalCostofLoan < 0)) {this.TotalCostofLoan = 0;}
+    if ((isNaN(this.ExtraAnnualPayment) === true) || (this.ExtraAnnualPayment < 0)) {this.ExtraAnnualPayment = 0;}
+    if (dateCheck.indexOf("Invalid date") >-1){this.FirstPaymentDate = TodaysDate();}
+
+    if (this.TotalNumberofPayments < 1) {
+      this.PayOffDate = "";
+      this.PayOffDateDiff = "";
+      this.TotalNumberofPayments = 0;
+      // return;
+    }
+
+
+
+
+
+
+
     console.log("--END--");
+
+
+
+
+
+
   }
 
 
