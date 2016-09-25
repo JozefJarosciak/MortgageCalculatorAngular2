@@ -5,16 +5,15 @@ import * as moment from 'moment/moment';
 @Component({
   selector: 'my-app',
   templateUrl: 'app/index.html',
- // directives: [UIChart]
+  // directives: [UIChart]
 })
 
 
 export class AppComponent {
 
 
-
-  data: any;
-  datapie: any;
+  data:any;
+  datapie:any;
 
 
   results:any = [];
@@ -76,10 +75,9 @@ export class AppComponent {
     this.FirstPaymentDate = TodaysDate();
 
     // Initialize Extra Payment values
-    this.ExtraPayment = 0;
-    this.PaymentInterval = 0;
-    this.ExtraAnnualPayment = 0;
-
+    this.ExtraPayment = 100;
+    this.PaymentInterval = 1;
+    this.ExtraAnnualPayment = 800;
 
 
     // Start the calculation
@@ -89,6 +87,28 @@ export class AppComponent {
   calculateMortgage() {
     console.log("--START--");
 
+    // Error checking
+    var dateCheck:any = moment(new Date(Date.parse(this.FirstPaymentDate))).utc().add(this.AdjustDateBy * (i - 1), this.AdjustDateByStr).format('MMMM Do YYYY');
+    if ((isNaN(this.MortgageAmount) === true) || (this.MortgageAmount < 0)){this.MortgageAmount = 0;}
+    if ((isNaN(this.MortgageAmortizationInMonths) === true) || (this.MortgageAmortizationInMonths < 0)){this.MortgageAmortizationInMonths = 0;}
+    if ((isNaN(this.InterestRate) === true) || (this.InterestRate < 0)){this.InterestRate = 0;}
+    if ((isNaN(this.ExtraPayment) === true) || (this.ExtraPayment < 0)){this.ExtraPayment = 0;}
+    if ((isNaN(this.PaymentInterval) === true) || (this.PaymentInterval < 0)){this.PaymentInterval = 0;}
+    if ((isNaN(this.ExtraPayment) === true) || (this.ExtraPayment < 0)){this.ExtraPayment = 0;}
+
+    if ((isNaN(this.MortgagePayment) === true) || (this.MortgagePayment < 0)) {this.MortgagePayment = 0;}
+    if ((isNaN(this.TotalCostofLoan) === true) || (this.TotalCostofLoan < 0)) {this.TotalCostofLoan = 0;}
+    if ((isNaN(this.ExtraAnnualPayment) === true) || (this.ExtraAnnualPayment < 0)) {this.ExtraAnnualPayment = 0;}
+    if (dateCheck.indexOf("Invalid date") >-1){this.FirstPaymentDate = TodaysDate();}
+
+    if (this.TotalNumberofPayments < 1) {
+   this.PayOffDate = "";
+   this.PayOffDateDiff = "";
+   this.TotalNumberofPayments = 0;
+  // return;
+ }
+
+
     this.groups = [];
     this.data = [];
     this.ChartLabelsArray = [];
@@ -97,7 +117,7 @@ export class AppComponent {
 
     this.MortgageAmortizationConvertedtoYears = Math.floor(this.MortgageAmortizationInMonths / 12);
     this.MortgageAmortizationConvertedtoMonths = +(this.MortgageAmortizationInMonths % 12).toFixed(0);
-   // this.FirstPaymentDateFormat = TodaysDateFormat();
+    // this.FirstPaymentDateFormat = TodaysDateFormat();
     /*
      Payment Frequency:
      This is used to determine the number of payments per year.
@@ -116,53 +136,53 @@ export class AppComponent {
 
     if (this.PaymentFrequency === "Annually") {
       this.PeriodsPerYear = 1;
-      this.AdjustDateBy=1;
-      this.AdjustDateByStr="year";
+      this.AdjustDateBy = 1;
+      this.AdjustDateByStr = "year";
     }
     if (this.PaymentFrequency === "Semi-Annually") {
       this.PeriodsPerYear = 2;
-      this.AdjustDateBy=6;
-      this.AdjustDateByStr="months";
+      this.AdjustDateBy = 6;
+      this.AdjustDateByStr = "months";
     }
     if (this.PaymentFrequency === "Quarterly") {
       this.PeriodsPerYear = 4;
-      this.AdjustDateBy=3;
-      this.AdjustDateByStr="months";
+      this.AdjustDateBy = 3;
+      this.AdjustDateByStr = "months";
     }
     if (this.PaymentFrequency === "Bi-Monthly") {
       this.PeriodsPerYear = 6;
-      this.AdjustDateBy=2;
-      this.AdjustDateByStr="months";
+      this.AdjustDateBy = 2;
+      this.AdjustDateByStr = "months";
     }
     if (this.PaymentFrequency === "Monthly") {
       this.PeriodsPerYear = 12;
-      this.AdjustDateBy=1;
-      this.AdjustDateByStr="month";
+      this.AdjustDateBy = 1;
+      this.AdjustDateByStr = "month";
     }
     if (this.PaymentFrequency === "Semi-Monthly") {
       this.PeriodsPerYear = 24;
-      this.AdjustDateBy=1/2;
-      this.AdjustDateByStr="month";
+      this.AdjustDateBy = 1 / 2;
+      this.AdjustDateByStr = "month";
     }
     if (this.PaymentFrequency === "Bi-Weekly") {
       this.PeriodsPerYear = 26;
-      this.AdjustDateBy=2;
-      this.AdjustDateByStr="weeks";
+      this.AdjustDateBy = 2;
+      this.AdjustDateByStr = "weeks";
     }
     if (this.PaymentFrequency === "Weekly") {
       this.PeriodsPerYear = 52;
-      this.AdjustDateBy=1;
-      this.AdjustDateByStr="week";
+      this.AdjustDateBy = 1;
+      this.AdjustDateByStr = "week";
     }
     if (this.PaymentFrequency === "Acc. Bi-Weekly") {
       this.PeriodsPerYear = 26;
-      this.AdjustDateBy=2;
-      this.AdjustDateByStr="weeks";
+      this.AdjustDateBy = 2;
+      this.AdjustDateByStr = "weeks";
     }
     if (this.PaymentFrequency === "Acc. Weekly") {
       this.PeriodsPerYear = 52;
-      this.AdjustDateBy=1;
-      this.AdjustDateByStr="week";
+      this.AdjustDateBy = 1;
+      this.AdjustDateByStr = "week";
     }
 
     // calculate Total Number of Payments (this may need to be reworked for accelerated schedule)
@@ -195,7 +215,7 @@ export class AppComponent {
 
     // Calculate a Monthly Mortgage Payment first
     //this.MortgagePayment = -(PMT(this.InterestRatePerPayment,this.MortgageAmortizationInMonths,this.MortgageAmount,0,0))/(this.PeriodsPerYear/12);
-    this.MortgagePayment = -PMT(this.MonthlyInterestRate, this.MortgageAmortizationInMonths, this.MortgageAmount, 0, 0)/(this.PeriodsPerYear/12);
+    this.MortgagePayment = -PMT(this.MonthlyInterestRate, this.MortgageAmortizationInMonths, this.MortgageAmount, 0, 0) / (this.PeriodsPerYear / 12);
     this.TotalCostofLoan = (this.MortgagePayment * this.MortgageAmortizationInMonths) / (12 / this.PeriodsPerYear);
     //this.TotalCostofLoan = (this.MortgagePayment * this.TotalNumberofPayments);
 
@@ -251,133 +271,128 @@ export class AppComponent {
 
         extraPaymentFinal = 0;
         // add extra payments
-        if ( i && (i % paymentInterval === 0)) {
+        if (i && (i % paymentInterval === 0)) {
           principal = principal + extraPayment;
           extraPaymentFinal = extraPayment;
         }
 
-        if ( i && (i % this.PeriodsPerYear === 0)) {
+        if (i && (i % this.PeriodsPerYear === 0)) {
           principal = principal + extraAnnualPayment;
           extraPaymentFinal = extraPaymentFinal + extraAnnualPayment;
         }
 
 
-       // console.log("--extraPaymentflag:" + extraPaymentflag);
-
+        // console.log("--extraPaymentflag:" + extraPaymentflag);
 
 
         if (this.PaymentFrequency === "Semi-Monthly") {
-         if (i % 2 === 1) {
-           finalDate = moment(dueDate).utc().add(this.AdjustDateBy*(i-1), this.AdjustDateByStr).format('MMMM Do YYYY');
-           finalDate2 = moment(dueDate).utc().add(this.AdjustDateBy*(i), this.AdjustDateByStr).add(1,'day');
-         } else {
-           finalDate = moment(dueDate).utc().add(this.AdjustDateBy*(i-1), this.AdjustDateByStr).subtract(2,'weeks').format('MMMM Do YYYY');
-           finalDate2 = moment(dueDate).utc().add(this.AdjustDateBy*(i), this.AdjustDateByStr).subtract(2,'weeks').add(1,'day');
-         }
+          if (i % 2 === 1) {
+            finalDate = moment(dueDate).utc().add(this.AdjustDateBy * (i - 1), this.AdjustDateByStr).format('MMMM Do YYYY');
+            finalDate2 = moment(dueDate).utc().add(this.AdjustDateBy * (i), this.AdjustDateByStr).add(1, 'day');
+          } else {
+            finalDate = moment(dueDate).utc().add(this.AdjustDateBy * (i - 1), this.AdjustDateByStr).subtract(2, 'weeks').format('MMMM Do YYYY');
+            finalDate2 = moment(dueDate).utc().add(this.AdjustDateBy * (i), this.AdjustDateByStr).subtract(2, 'weeks').add(1, 'day');
+          }
         } else {
-          finalDate = moment(dueDate).utc().add(this.AdjustDateBy*(i-1), this.AdjustDateByStr).format('MMMM Do YYYY');
-          finalDate2 = moment(dueDate).utc().add(this.AdjustDateBy*(i), this.AdjustDateByStr).add(1,'day');
+          finalDate = moment(dueDate).utc().add(this.AdjustDateBy * (i - 1), this.AdjustDateByStr).format('MMMM Do YYYY');
+          finalDate2 = moment(dueDate).utc().add(this.AdjustDateBy * (i), this.AdjustDateByStr).add(1, 'day');
         }
 
 
-
         //if ((this.PaymentFrequency === "Acc. Bi-Weekly") || (this.PaymentFrequency === "Acc. Weekly") ) {
-        if (balance<principal) {
+        if (balance < principal) {
 
-          finalDate = moment(dueDate).utc().add(this.AdjustDateBy*(i), this.AdjustDateByStr).format('MMMM Do YYYY');
+          finalDate = moment(dueDate).utc().add(this.AdjustDateBy * (i), this.AdjustDateByStr).format('MMMM Do YYYY');
 
           this.groups.push({
             members: [{
               indexArray: i,
-              dueArray:finalDate,
+              dueArray: finalDate,
               paymentArray: (interestPaid + balance).toFixed(2),
-              extraPaymentArray:0,
+              extraPaymentArray: 0,
               interestPaidArray: interestPaid.toFixed(2),
               principalArray: balance.toFixed(2),
               balanceArray: 0
             }]
           });
-          mortgagePayment =  interestPaid + balance;
+          mortgagePayment = interestPaid + balance;
           principal = balance;
           balance = 0;
-          this.TotalNumberofPayments = i+1;
-          interestPaidFinal = interestPaidFinal+interestPaid;
+          this.TotalNumberofPayments = i;
+          interestPaidFinal = interestPaidFinal + interestPaid;
 
           //Add values to Chart
-          this.ChartLabelsArray[i] =  finalDate;
-          this.ChartDataArray[i] =  0;
-          this.ChartDataArrayExtra[i] =  interestPaidFinal.toFixed(2);
+          this.ChartLabelsArray[i] = finalDate;
+          this.ChartDataArray[i] = 0;
+          this.ChartDataArrayExtra[i] = interestPaidFinal.toFixed(2);
 
           break;
         }
         // }
 
 
-        if (i===numberofPayments) {
-          mortgagePayment =  interestPaid + balance;
+        if (i === numberofPayments) {
+          mortgagePayment = interestPaid + balance;
           this.groups.push({
             members: [{
               indexArray: i,
-              dueArray:finalDate,
+              dueArray: finalDate,
               paymentArray: mortgagePayment.toFixed(2),
-              extraPaymentArray:extraPaymentFinal.toFixed(2),
+              extraPaymentArray: extraPaymentFinal.toFixed(2),
               interestPaidArray: interestPaid.toFixed(2),
               principalArray: balance.toFixed(2),
               balanceArray: 0
             }]
           });
-          interestPaidFinal = interestPaidFinal+interestPaid;
+          interestPaidFinal = interestPaidFinal + interestPaid;
           balance = balance - principal;
           this.PayOffDate = finalDate;
           this.TotalNumberofPayments = numberofPayments;
           //Add values to Chart
-          this.ChartLabelsArray[i] =  finalDate;
-          this.ChartDataArray[i] =  0;
-          this.ChartDataArrayExtra[i] =  interestPaidFinal.toFixed(2);
+          this.ChartLabelsArray[i] = finalDate;
+          this.ChartDataArray[i] = 0;
+          this.ChartDataArrayExtra[i] = interestPaidFinal.toFixed(2);
         } else {
           balance = balance - principal;
-         this.groups.push({
+          this.groups.push({
             members: [{
               indexArray: i,
-              dueArray:finalDate,
+              dueArray: finalDate,
               paymentArray: mortgagePayment.toFixed(2),
-              extraPaymentArray:extraPaymentFinal.toFixed(2),
+              extraPaymentArray: extraPaymentFinal.toFixed(2),
               interestPaidArray: interestPaid.toFixed(2),
               principalArray: principal.toFixed(2),
               balanceArray: balance.toFixed(2)
             }]
           });
-          interestPaidFinal = interestPaidFinal+interestPaid;
-          this.ChartLabelsArray[i] =  finalDate;
-          this.ChartDataArray[i] =  balance.toFixed(2);
-          this.ChartDataArrayExtra[i] =  interestPaidFinal.toFixed(2);
-      }
+          interestPaidFinal = interestPaidFinal + interestPaid;
+          this.ChartLabelsArray[i] = finalDate;
+          this.ChartDataArray[i] = balance.toFixed(2);
+          this.ChartDataArrayExtra[i] = interestPaidFinal.toFixed(2);
+        }
 
 
-
-
-
-        if (principal>balance) {
-          principal=balance;
+        if (principal > balance) {
+          principal = balance;
         }
 
       }
 
       this.InterestPaidforTerm = interestPaidFinal;
-      this.TotalCostofLoan = this.MortgageAmount+interestPaidFinal;
+      this.TotalCostofLoan = this.MortgageAmount + interestPaidFinal;
       this.PayOffDate = finalDate;
 
 
-     // console.log("a: " + a + " | " + "b: " + b);
+      // console.log("a: " + a + " | " + "b: " + b);
       var dateObj = new Date(Date.parse(finalDate2));
-      this.PayOffDateDiff =  moment.duration(moment(dueDate).diff(moment(dateObj))).years().toString().replace("-","") + " yrs, " +
-        moment.duration(moment(dueDate).diff(moment(dateObj))).months().toString().replace("-","") + " mth, " +
-        moment.duration(moment(dueDate).diff(moment(dateObj))).days().toString().replace("-","") + " days";
+      this.PayOffDateDiff = moment.duration(moment(dueDate).diff(moment(dateObj))).years().toString().replace("-", "") + " yrs, " +
+        moment.duration(moment(dueDate).diff(moment(dateObj))).months().toString().replace("-", "") + " mth"
+      //  +  ", " + moment.duration(moment(dueDate).diff(moment(dateObj))).days().toString().replace("-","") + " days"
+      ;
       //console.log("--Zaciatok:" + moment(dueDate) + "--Koniec:" + moment(dateObj));
 
 
     }
-
 
 
 // Generate chart
@@ -403,7 +418,7 @@ export class AppComponent {
 
 
     this.datapie = {
-      labels: ['Mortgage Amount','Total Interest Paid'],
+      labels: ['Mortgage Amount', 'Total Interest Paid'],
       datasets: [
         {
           data: [this.MortgageAmount, interestPaidFinal.toFixed(2)],
@@ -422,28 +437,15 @@ export class AppComponent {
 
 
 
-    // Error checking
-
-    if (isNaN(this.MortgagePayment) === true) {
-      this.MortgagePayment = 0;
-    }
-    if (isNaN(this.TotalCostofLoan) === true) {
-      this.TotalCostofLoan = 0;
-    }
-    if (isNaN(this.InterestPaidforTerm) === true) {
-      this.InterestPaidforTerm = 0;
-    }
 
 
     //
-   // console.log("MortgagePayment: " + this.MortgagePayment);
+    // console.log("MortgagePayment: " + this.MortgagePayment);
     console.log("--END--");
   }
 
 
-
 }
-
 
 
 function PMT(ir:number, np:number, pv:number, fv:number, type:number) {
@@ -474,13 +476,17 @@ function PMT(ir:number, np:number, pv:number, fv:number, type:number) {
   return pmt;
 }
 
-function TodaysDate () {
+function TodaysDate() {
   var today:any = new Date();
   var dd:any = today.getDate();
-  var mm:any = today.getMonth()+1;
+  var mm:any = today.getMonth() + 1;
   var yyyy:any = today.getFullYear();
-  if(dd<10){dd='0'+dd}
-  if(mm<10){mm='0'+mm}
+  if (dd < 10) {
+    dd = '0' + dd
+  }
+  if (mm < 10) {
+    mm = '0' + mm
+  }
   var today:any = yyyy + "-" + mm + '-' + dd;
   return today;
 }
