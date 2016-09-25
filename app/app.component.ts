@@ -1,9 +1,6 @@
 import {Component} from '@angular/core';
 import _for = require("core-js/fn/symbol/for");
 import * as moment from 'moment/moment';
-//import {UIChart} from 'primeng/primeng';
-
-//let template = require('./bar-chart-demo.html');
 
 @Component({
   selector: 'my-app',
@@ -71,17 +68,17 @@ export class AppComponent {
 
 
     // Initialize all the preconfigured values on the first load
-    this.MortgageAmount = 100000;
-    this.MortgageAmortizationInMonths = 120;
-    this.InterestRate = 2.00;
+    this.MortgageAmount = 250000;
+    this.MortgageAmortizationInMonths = 240;
+    this.InterestRate = 3.25;
     this.PaymentFrequency = "Monthly";
     this.CompoundPeriod = 2;
     this.FirstPaymentDate = TodaysDate();
 
     // Initialize Extra Payment values
-    this.ExtraPayment = 1000;
-    this.PaymentInterval = 1;
-    this.ExtraAnnualPayment = 10000;
+    this.ExtraPayment = 0;
+    this.PaymentInterval = 0;
+    this.ExtraAnnualPayment = 0;
 
 
 
@@ -406,7 +403,7 @@ export class AppComponent {
 
 
     this.datapie = {
-      labels: ['Total Cost of Loan','Interest Paid for Term'],
+      labels: ['Mortgage Amount','Total Interest Paid'],
       datasets: [
         {
           data: [this.MortgageAmount, interestPaidFinal.toFixed(2)],

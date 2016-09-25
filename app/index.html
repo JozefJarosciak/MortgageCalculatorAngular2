@@ -26,20 +26,20 @@
       <form role="form">
         <div class="form-group">
           <div class="input-group">
-            <span class="input-group-addon mortgageDetailsLabel" data-tooltip="This is not the sale price of the home. It's the amount you have borrowed." data-tooltip-position="bottom">Mortgage Amount ($)</span>
+            <span class="input-group-addon mortgageDetailsLabel" data-tooltip="The amount you have borrowed." data-tooltip-position="bottom">Mortgage Amount</span>
             <input [(ngModel)]="MortgageAmount" (ngModelChange)="calculateMortgage()" name="MortgageAmount" type="number" min="100" max="999999999" class="form-control labelMrtgCalc" placeholder="e.g. 100000">
             <input class="form-control labelMrtgCalcFormatted" placeholder="{{MortgageAmount | currency:'USD':true:'1.2-2'}}" disabled>
           </div>
         </div>
         <div class="form-group">
           <div class="input-group">
-            <span class="input-group-addon mortgageDetailsLabel" data-tooltip="The total number of months, it'll take to pay off the mortgage. E.g. 10 years = 120 months." data-tooltip-position="bottom">Mortgage Amortization (Months)</span>
+            <span class="input-group-addon mortgageDetailsLabel" data-tooltip="The total number of months it'll take to pay off the mortgage. E.g. 10 years = 120 months." data-tooltip-position="bottom">Mortgage Amortization</span>
             <input [(ngModel)]="MortgageAmortizationInMonths" (ngModelChange)="calculateMortgage()" name="MortgageAmortizationInMonths" type="number" min="1" class="form-control labelMrtgCalc" placeholder="e.g. 120 (10 yrs.)">
             <input class="form-control labelMrtgCalcFormatted" placeholder="{{MortgageAmortizationConvertedtoYears}} yrs., {{MortgageAmortizationConvertedtoMonths}} mth." disabled>
           </div>
         </div>
         <div class="input-group">
-          <span class="input-group-addon mortgageDetailsLabel" data-tooltip="Nominal interest rate as quoted by the lender. Canadian mortgages are compounded semi-annually." data-tooltip-position="bottom">Annual Interest Rate (%)</span>
+          <span class="input-group-addon mortgageDetailsLabel" data-tooltip="Nominal interest rate as quoted by the lender. Canadian mortgages are compounded semi-annually." data-tooltip-position="bottom">Annual Interest Rate</span>
           <input [(ngModel)]="InterestRate" (ngModelChange)="calculateMortgage()" name="InterestRate" type="number" min="0" max="100" step="0.01" class="form-control labelMrtgCalc" placeholder="e.g. 2.75">
           <input class="form-control labelMrtgCalcFormatted" placeholder="Per Payment: {{InterestRatePerPayment*100}}%" disabled>
         </div>
@@ -61,7 +61,7 @@
             Bi-Weekly:     26 times a year (once every 2 weeks)&#013;
             Weekly:        52 times a year (once a week)&#013;
             Acc Bi-Weekly: 26 times a year. 1/2 of monthly payment&#013;
-            Acc Weekly:    52 times a year. 1/4 of monthly payment" data-tooltip-position="bottom">Payment Frequency</span>
+            Acc Weekly:    52 times a year. 1/4 of monthly payment" data-tooltip-position="bottom">Payment Frequency <img width="14px" align="top" src="./app/img/info.png"></span>
             <select [(ngModel)]="PaymentFrequency" (ngModelChange)="calculateMortgage()" name="PaymentFrequency" id="formInput119" class="form-control labelMrtgCalc">
               <option>Annually</option>
               <option>Semi-Annually</option>
@@ -131,7 +131,7 @@
         <h4 class="valuelabel">{{TotalCostofLoan | currency:'USD':true:'1.2-2'}}</h4>
       </div>
       <div class="input-group">
-        <span class="input-group-addon labelgroup">Interest Paid for Term</span>
+        <span class="input-group-addon labelgroup">Total Interest Paid</span>
         <h4 class="valuelabel">{{InterestPaidforTerm | currency:'USD':true:'1.2-2'}}</h4>
       </div>
       <div class="input-group">
