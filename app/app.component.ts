@@ -18,29 +18,6 @@ export class AppComponent {
 
   data: any;
 
-  constructor() {
-    this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'My First dataset',
-          backgroundColor: '#42A5F5',
-          borderColor: '#1E88E5',
-          data: [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-          label: 'My Second dataset',
-          backgroundColor: '#9CCC65',
-          borderColor: '#7CB342',
-          data: [28, 48, 40, 19, 86, 27, 90]
-        }
-      ]
-    }
-  }
-
-
-
-
 
 
   results:any = [];
@@ -67,7 +44,11 @@ export class AppComponent {
   PaymentInterval:any;
   ExtraAnnualPayment:any;
 
-  CompoundPeriod:number;
+  ChartLabelsArray:any = [];
+  ChartDataArray:any = [];
+  ChartDataArrayExtra:any = [];
+
+
   /*
    Compound Period:
    The number of times per year that the interest is compounded.
@@ -78,8 +59,16 @@ export class AppComponent {
    - Canadian mortgages are compounded semi-annually.
    - US mortgages are compounded monthly.
    */
+  CompoundPeriod:number;
+
 
   ngOnInit() {
+
+
+
+
+
+
 
     // Initialize all the preconfigured values on the first load
     this.MortgageAmount = 100000;
@@ -94,6 +83,8 @@ export class AppComponent {
     this.PaymentInterval = 1;
     this.ExtraAnnualPayment = 10000;
 
+
+
     // Start the calculation
     this.calculateMortgage();
   }
@@ -102,6 +93,11 @@ export class AppComponent {
     console.log("--START--");
 
     this.groups = [];
+    this.data = [];
+    this.ChartLabelsArray = [];
+    this.ChartDataArray = [];
+    this.ChartDataArrayExtra = [];
+
     this.MortgageAmortizationConvertedtoYears = Math.floor(this.MortgageAmortizationInMonths / 12);
     this.MortgageAmortizationConvertedtoMonths = +(this.MortgageAmortizationInMonths % 12).toFixed(0);
    // this.FirstPaymentDateFormat = TodaysDateFormat();
@@ -309,6 +305,12 @@ export class AppComponent {
           balance = 0;
           this.TotalNumberofPayments = i+1;
           interestPaidFinal = interestPaidFinal+interestPaid;
+
+          //Add values to Chart
+          this.ChartLabelsArray[i] =  finalDate;
+          this.ChartDataArray[i] =  0;
+          this.ChartDataArrayExtra[i] =  interestPaidFinal.toFixed(2);
+
           break;
         }
         // }
@@ -331,6 +333,10 @@ export class AppComponent {
           balance = balance - principal;
           this.PayOffDate = finalDate;
           this.TotalNumberofPayments = numberofPayments;
+          //Add values to Chart
+          this.ChartLabelsArray[i] =  finalDate;
+          this.ChartDataArray[i] =  0;
+          this.ChartDataArrayExtra[i] =  interestPaidFinal.toFixed(2);
         } else {
           balance = balance - principal;
          this.groups.push({
@@ -345,10 +351,9 @@ export class AppComponent {
             }]
           });
           interestPaidFinal = interestPaidFinal+interestPaid;
-
-
-
-
+          this.ChartLabelsArray[i] =  finalDate;
+          this.ChartDataArray[i] =  balance.toFixed(2);
+          this.ChartDataArrayExtra[i] =  interestPaidFinal.toFixed(2);
       }
 
 
@@ -358,11 +363,6 @@ export class AppComponent {
         if (principal>balance) {
           principal=balance;
         }
-
-
-
-
-
 
       }
 
@@ -378,6 +378,30 @@ export class AppComponent {
         moment.duration(moment(dueDate).diff(moment(dateObj))).days().toString().replace("-","") + " days";
       //console.log("--Zaciatok:" + moment(dueDate) + "--Koniec:" + moment(dateObj));
 
+
+    }
+
+
+
+// Generate chart
+
+    this.data = {
+      labels: this.ChartLabelsArray,
+      datasets: [
+        {
+          label: 'Total Interest',
+          backgroundColor: '#9CCC65',
+          borderColor: '#7CB342',
+          data: this.ChartDataArrayExtra
+        },
+        {
+          label: 'Balance',
+          backgroundColor: '#42A5F5',
+          borderColor: '#1E88E5',
+          data: this.ChartDataArray
+        }
+
+      ]
     }
 
 
