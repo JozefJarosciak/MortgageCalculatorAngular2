@@ -39,7 +39,7 @@
         <div class="form-group">
           <div class="input-group">
             <span class="input-group-addon mortgageDetailsLabel"
-                  data-tooltip="The total number of months it'll take to pay off the mortgage. E.g. 10 years = 120 months."
+                  data-tooltip="The total number of months it'll take to pay off the mortgage.&#013;Maximum acceptable value: 420 months (40 years)."
                   data-tooltip-position="bottom">Mortgage Amortization</span>
             <input [(ngModel)]="MortgageAmortizationInMonths" (ngModelChange)="calculateMortgage()"
                    name="MortgageAmortizationInMonths" type="number" min="1" class="form-control labelMrtgCalc"
@@ -106,7 +106,7 @@
                   data-tooltip="Enter the value of the extra payment in this field, and the payment interval in the next field."
                   data-tooltip-position="bottom">Extra Payment ($)</span>
             <input [(ngModel)]="ExtraPayment" (ngModelChange)="calculateMortgage()" name="ExtraPayment" type="number"
-                   min="0" class="form-control labelMrtgCalc" placeholder="e.g. 100">
+                   min="0" class="form-control labelMrtgCalc" placeholder="e.g. 100" required>
           </div>
         </div>
 
@@ -116,7 +116,7 @@
                   data-tooltip="Specifies that the Extra Payment amount will be made every N payments. For example, if the Payment Frequency is Monthly, enter 1 to make the extra payment every month"
                   data-tooltip-position="bottom">Payment Interval</span>
             <input [(ngModel)]="PaymentInterval" (ngModelChange)="calculateMortgage()" name="PaymentInterval"
-                   type="number" min="0" class="form-control labelMrtgCalc" placeholder="e.g. 1">
+                   type="number" min="0" class="form-control labelMrtgCalc" placeholder="e.g. 1" required>
           </div>
         </div>
 
@@ -126,7 +126,7 @@
                   data-tooltip="In addition to the Extra Payment above, you can specify an Extra Annual Payment."
                   data-tooltip-position="bottom">Extra Annual Payment ($)</span>
             <input [(ngModel)]="ExtraAnnualPayment" (ngModelChange)="calculateMortgage()" name="ExtraAnnualPayment"
-                   type="number" min="0" class="form-control labelMrtgCalc" z placeholder="e.g. 100">
+                   type="number" min="0" class="form-control labelMrtgCalc" z placeholder="e.g. 100" required>
           </div>
         </div>
 

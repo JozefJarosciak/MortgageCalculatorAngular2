@@ -22,7 +22,7 @@ export class AppComponent {
   MortgageAmortizationInMonths:number;
   InterestRate:number;
   MonthlyInterestRate:number;
-  MortgageAmortizationConvertedtoYears:number;
+  MortgageAmortizationConvertedtoYears:any;
   MortgageAmortizationConvertedtoMonths:number;
   MortgagePayment:number;
   PaymentFrequency:string;
@@ -36,7 +36,7 @@ export class AppComponent {
   AdjustDateByStr:any;
   PayOffDate:any;
   PayOffDateDiff:any;
-  ExtraPayment:any;
+  ExtraPayment:number;
   PaymentInterval:any;
   ExtraAnnualPayment:any;
 
@@ -65,7 +65,6 @@ export class AppComponent {
 
 
 
-
     // Initialize all the preconfigured values on the first load
     this.MortgageAmount = 250000;
     this.MortgageAmortizationInMonths = 240;
@@ -84,17 +83,73 @@ export class AppComponent {
     this.calculateMortgage();
   }
 
+
+
+
+
+
+
+
+
+
+
   calculateMortgage() {
     console.log("--START--");
 
 
 
 
+
     this.groups = [];
     this.data = [];
+    this.datapie = [];
     this.ChartLabelsArray = [];
     this.ChartDataArray = [];
     this.ChartDataArrayExtra = [];
+
+
+
+    // Generate chart
+
+    this.data = {
+      labels: this.ChartLabelsArray,
+      datasets: [
+        {
+          label: 'Total Interest',
+          backgroundColor: '#9CCC65',
+          borderColor: '#7CB342',
+          data: [0]
+        },
+        {
+          label: 'Balance',
+          backgroundColor: '#42A5F5',
+          borderColor: '#1E88E5',
+          data: [0]
+        }
+
+      ]
+    }
+
+
+    this.datapie = {
+      labels: ['Mortgage Amount', 'Total Interest Paid'],
+      datasets: [
+        {
+          data: [0, 0],
+          backgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56"
+          ],
+          hoverBackgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56"
+          ]
+        }]
+    };
+
+
 
     this.MortgageAmortizationConvertedtoYears = Math.floor(this.MortgageAmortizationInMonths / 12);
     this.MortgageAmortizationConvertedtoMonths = +(this.MortgageAmortizationInMonths % 12).toFixed(0);
@@ -243,7 +298,7 @@ export class AppComponent {
     var finalDate2:any;
     var dueDate = new Date(Date.parse(this.FirstPaymentDate));
 
-    if ((this.MortgageAmount >= 10) && (this.MortgageAmortizationInMonths <= 360)) {
+    if ((this.MortgageAmount >= 10) && (this.MortgageAmortizationInMonths <= 420)) {
 
       for (var i = 1; i <= numberofPayments; i++) {
 
@@ -376,6 +431,8 @@ export class AppComponent {
     }
 
 
+
+
 // Generate chart
 
     this.data = {
@@ -418,27 +475,36 @@ export class AppComponent {
 
 
 
-
-
     // Error checking
     var dateCheck:any = moment(new Date(Date.parse(this.FirstPaymentDate))).utc().add(this.AdjustDateBy * (i - 1), this.AdjustDateByStr).format('MMMM Do YYYY');
-    if ((isNaN(this.MortgageAmount) === true) || (this.MortgageAmount < 0)){this.MortgageAmount = 0;}
-    if ((isNaN(this.MortgageAmortizationInMonths) === true) || (this.MortgageAmortizationInMonths < 0)){this.MortgageAmortizationInMonths = 0;}
-    if ((isNaN(this.InterestRate) === true) || (this.InterestRate < 0)){this.InterestRate = 0;}
-    if ((isNaN(this.ExtraPayment) === true) || (this.ExtraPayment < 0)){this.ExtraPayment = 0;}
-    if ((isNaN(this.PaymentInterval) === true) || (this.PaymentInterval < 0)){this.PaymentInterval = 0;}
-    if ((isNaN(this.ExtraPayment) === true) || (this.ExtraPayment < 0)){this.ExtraPayment = 0;}
-    if ((isNaN(this.MortgagePayment) === true) || (this.MortgagePayment < 0)) {this.MortgagePayment = 0;}
-    if ((isNaN(this.TotalCostofLoan) === true) || (this.TotalCostofLoan < 0)) {this.TotalCostofLoan = 0;}
-    if ((isNaN(this.ExtraAnnualPayment) === true) || (this.ExtraAnnualPayment < 0)) {this.ExtraAnnualPayment = 0;}
+
+    if ((isNaN(this.PaymentInterval) === true) || (this.PaymentInterval < 0)){this.PaymentInterval = 0;return;}
+    if ((isNaN(this.ExtraPayment) === true) || (this.ExtraPayment < 0) || (this.ExtraPayment > this.MortgageAmount)){this.ExtraPayment = 0;this.PaymentInterval = 0; return;}
+    if ((isNaN(this.ExtraAnnualPayment) === true) || (this.ExtraAnnualPayment < 0)) {this.ExtraAnnualPayment = 0;return;}
+
+    if ((isNaN(this.MortgageAmount) === true) || (this.MortgageAmount < 0)){this.MortgageAmount = 0;return;}
+    if ((isNaN(this.MortgageAmortizationInMonths) === true) || (this.MortgageAmortizationInMonths < 0)){this.MortgageAmortizationInMonths = 0;return;}
+    if ((isNaN(this.InterestRate) === true) || (this.InterestRate < 0) || (this.InterestRate > 100)){this.InterestRate = 0;return;}
+    if ((isNaN(this.MortgagePayment) === true) || (this.MortgagePayment < 0)) {this.MortgagePayment = 0;return;}
+    if ((isNaN(this.TotalCostofLoan) === true) || (this.TotalCostofLoan < 0)) {this.TotalCostofLoan = 0;return;}
+
     if (dateCheck.indexOf("Invalid date") >-1){this.FirstPaymentDate = TodaysDate();}
 
     if (this.TotalNumberofPayments < 1) {
       this.PayOffDate = "";
       this.PayOffDateDiff = "";
       this.TotalNumberofPayments = 0;
-      // return;
+      return;
     }
+
+    if ((this.MortgageAmortizationInMonths < 0) || (this.MortgageAmortizationInMonths > 420)) {
+      this.MortgageAmortizationConvertedtoYears = "ERROR: Min: 0 | Max: 420";
+      return;
+    }
+
+
+
+
 
 
 
