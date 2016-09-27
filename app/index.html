@@ -2,7 +2,8 @@
 <div class="container">
   <div>
     <img src="./app/img/icon-maple-leaf.jpg">
-    <a class="top-header-title">Canadian Mortgage Calculator</a><br>
+    <a class="top-header-title">Canadian Mortgage Calculator</a>
+  <br>
   </div>
 </div>
 <br><br>
@@ -132,106 +133,93 @@
 
       </form>
       <p></p>
-      <div class="btn-group">
-        <ul class="dropdown-menu" role="menu">
-          <li>
-            <a href="#">Action</a>
-          </li>
-          <li>
-            <a href="#">Another action</a>
-          </li>
-          <li>
-            <a href="#">Something else here</a>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <a href="#">Separated link</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <h4 class="heading-left categoryheader">Mortgage Calculation</h4>
-      <p>Results of your mortgage calculation:</p>
-      <div class="input-group">
-        <span class="input-group-addon labelgroup">Mortgage Payment</span>
-        <h4 class="valuelabel">{{MortgagePayment | currency:'USD':true:'1.2-2'}} {{PaymentFrequency}}</h4>
-      </div>
-      <div class="input-group">
-        <span class="input-group-addon labelgroup">Total Cost of Loan</span>
-        <h4 class="valuelabel">{{TotalCostofLoan | currency:'USD':true:'1.2-2'}}</h4>
-      </div>
-      <div class="input-group">
-        <span class="input-group-addon labelgroup">Total Interest Paid</span>
-        <h4 class="valuelabel">{{InterestPaidforTerm | currency:'USD':true:'1.2-2'}}</h4>
-      </div>
-      <div class="input-group">
-        <span class="input-group-addon labelgroup">Total # of Payments</span>
-        <h4 class="valuelabel">{{TotalNumberofPayments}}</h4>
-      </div>
-      <div class="input-group">
-        <span class="input-group-addon labelgroup">Pay-Off Date</span>
-        <h4 class="valuelabel">{{PayOffDate}}</h4>
-        <h3 class="valuelabel">{{PayOffDateDiff}}</h3>
-      </div>
-    </div>
+
+      <!--  Entire Action could be controlled by a button -->
+      <!--  <button type="button" (click)="calculateMortgage()" class="btn btn-info .btn-lg">Calculate</button> -->
+
+     </div>
+     <div class="col-md-6">
+       <h4 class="heading-left categoryheader">Mortgage Calculation</h4>
+       <p>Results of your mortgage calculation:</p>
+       <div class="input-group">
+         <span class="input-group-addon labelgroup">Mortgage Payment</span>
+         <h4 class="valuelabel">{{MortgagePayment | currency:'USD':true:'1.2-2'}} {{PaymentFrequency}}</h4>
+       </div>
+       <div class="input-group">
+         <span class="input-group-addon labelgroup">Total Cost of Loan</span>
+         <h4 class="valuelabel">{{TotalCostofLoan | currency:'USD':true:'1.2-2'}}</h4>
+       </div>
+       <div class="input-group">
+         <span class="input-group-addon labelgroup">Total Interest Paid</span>
+         <h4 class="valuelabel">{{InterestPaidforTerm | currency:'USD':true:'1.2-2'}}</h4>
+       </div>
+       <div class="input-group">
+         <span class="input-group-addon labelgroup">Total # of Payments</span>
+         <h4 class="valuelabel">{{TotalNumberofPayments}}</h4>
+       </div>
+       <div class="input-group">
+         <span class="input-group-addon labelgroup">Pay-Off Date</span>
+         <h4 class="valuelabel">{{PayOffDate}}</h4>
+         <h3 class="valuelabel">{{PayOffDateDiff}}</h3>
+       </div>
+     </div>
 
 
-    <div class="col-md-5">
-      <br>
-      <h4 class="heading-left categoryheader">Mortgage Pie Chart</h4>
-      <p-chart type="pie" [data]="datapie"></p-chart>
-    </div>
+     <div class="col-md-5">
+       <br>
+       <h4 class="heading-left categoryheader">Mortgage Pie Chart</h4>
+       <p-chart type="pie" [data]="datapie"></p-chart>
+     </div>
 
-  </div>
-
-
-  <div class="row">
+   </div>
 
 
-    <h4 class="heading-left categoryheader">Mortgage Bar Chart</h4>
-    <p>Results of your mortgage calculation:</p>
-    <p-chart type="bar" [data]="data"></p-chart>
-
-  </div>
+   <div class="row">
 
 
-  <br>
-  <h4 class="heading-left categoryheader">Amortization Schedule</h4>
-  <table id="customers">
-    <thead>
-    <tr>
-      <th>No.</th>
-      <th>Due Date</th>
-      <th>Payment</th>
-      <th>Extra Payment</th>
-      <th>Interest</th>
-      <th>Principal</th>
-      <th>Balance</th>
-    </tr>
-    </thead>
+     <h4 class="heading-left categoryheader">Mortgage Bar Chart</h4>
+     <p>Results of your mortgage calculation:</p>
+     <p-chart type="bar" [data]="data"></p-chart>
+
+   </div>
 
 
-    <tbody *ngFor="let group of groups">
-    <tr *ngFor="let member of group.members">
-      <td>{{ member.indexArray }}</td>
-      <td>{{ member.dueArray }}</td>
-      <td>{{ member.paymentArray | currency:'USD':true:'1.2-2'}}</td>
-      <td>{{ member.extraPaymentArray | currency:'USD':true:'1.2-2'}}</td>
-      <td>{{ member.interestPaidArray | currency:'USD':true:'1.2-2'}}</td>
-      <td>{{ member.principalArray | currency:'USD':true:'1.2-2'}}</td>
-      <td>{{ member.balanceArray | currency:'USD':true:'1.2-2'}}</td>
-    </tr>
-    </tbody>
-  </table>
+   <br>
+   <h4 class="heading-left categoryheader">Amortization Schedule</h4>
+   <table id="customers">
+     <thead>
+     <tr>
+       <th>No.</th>
+       <th>Due Date</th>
+       <th>Payment</th>
+       <th>Extra Payment</th>
+       <th>Interest</th>
+       <th>Principal</th>
+       <th>Balance</th>
+     </tr>
+     </thead>
 
 
-  <br><br>
+     <tbody *ngFor="let group of groups">
+     <tr *ngFor="let member of group.members">
+       <td>{{ member.indexArray }}</td>
+       <td>{{ member.dueArray }}</td>
+       <td>{{ member.paymentArray | currency:'USD':true:'1.2-2'}}</td>
+       <td>{{ member.extraPaymentArray | currency:'USD':true:'1.2-2'}}</td>
+       <td>{{ member.interestPaidArray | currency:'USD':true:'1.2-2'}}</td>
+       <td>{{ member.principalArray | currency:'USD':true:'1.2-2'}}</td>
+       <td>{{ member.balanceArray | currency:'USD':true:'1.2-2'}}</td>
+     </tr>
+     </tbody>
+   </table>
 
-  <footer>
-    <p>© ETX Software Inc. 2016</p>
-  </footer>
-</div>
+
+   <br><br>
+
+   <footer>
+     <p>© ETX Software Inc. 2016</p>
+   </footer>
+ </div>
 
 
 

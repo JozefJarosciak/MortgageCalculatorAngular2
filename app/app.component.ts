@@ -66,17 +66,17 @@ export class AppComponent {
 
 
     // Initialize all the preconfigured values on the first load
-    this.MortgageAmount = 250000;
-    this.MortgageAmortizationInMonths = 240;
-    this.InterestRate = 3.25;
+    this.MortgageAmount = 300000;
+    this.MortgageAmortizationInMonths = 300;
+    this.InterestRate = 3.33;
     this.PaymentFrequency = "Monthly";
     this.CompoundPeriod = 2;
     this.FirstPaymentDate = TodaysDate();
 
     // Initialize Extra Payment values
-    this.ExtraPayment = 100;
-    this.PaymentInterval = 1;
-    this.ExtraAnnualPayment = 800;
+    this.ExtraPayment = 0;
+    this.PaymentInterval = 0;
+    this.ExtraAnnualPayment = 0;
 
 
     // Start the calculation
