@@ -1,6 +1,6 @@
 # Angular 2 Mortgage Calculator
 
-This repository holds the TypeScript source code of the [Angular 2 Mortgage Calculator](https://github.com/JozefJarosciak/MortgageCalculatorAngular2).
+This repository holds the TypeScript source code of the [Mortgage Calculator @ MortgageCalculator123.com](http://www.mortgagecalculator123.com/).
 
 ## Prerequisites
 
