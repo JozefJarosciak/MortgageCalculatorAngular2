@@ -1,4 +1,4 @@
-# Angular 2 Mortgage Calculator
+# Canadian Mortgage Calculator (Angular 2 & Typescript)
 
 This repository holds the TypeScript source code of the [Canadian Mortgage Calculator @ MortgageCalculator123.com](http://www.mortgagecalculator123.com/).
 
