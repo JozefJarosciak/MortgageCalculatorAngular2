@@ -3,9 +3,9 @@
 This repository holds the TypeScript source code of the [Canadian Mortgage Calculator @ MortgageCalculator123.com](http://www.mortgagecalculator123.com/).
 
 ## Screenshots
-![alt tag](http://imgur.com/N7VVOlL)
-![alt tag](http://imgur.com/gjsnSoh)
-![alt tag](http://imgur.com/wPG0m73)
+![alt tag](http://i.imgur.com/N7VVOlL.jpg)
+![alt tag](http://i.imgur.com/gjsnSoh.jpg)
+![alt tag](http://i.imgur.com/wPG0m73.jpg)
 
 ## Prerequisites
 
