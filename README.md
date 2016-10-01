@@ -2,6 +2,11 @@
 
 This repository holds the TypeScript source code of the [Canadian Mortgage Calculator @ MortgageCalculator123.com](http://www.mortgagecalculator123.com/).
 
+## Screenshots
+![alt tag](http://imgur.com/N7VVOlL)
+![alt tag](http://imgur.com/gjsnSoh)
+![alt tag](http://imgur.com/wPG0m73)
+
 ## Prerequisites
 
 Node.js and npm are essential to Angular 2 development. Just verify that you are running at least node `v4.x.x` and npm `3.x.x`
