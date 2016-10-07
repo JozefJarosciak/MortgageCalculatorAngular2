@@ -71,7 +71,6 @@ export class AppComponent {
     this.confirmationService.confirm({
       message: 'http://mortgagecalculator123.com/?mo='+this.MortgageAmount+'&ma='+this.MortgageAmortizationInMonths+'&ir='+this.InterestRate+'&fp='+this.FirstPaymentDate+'&pf='+this.PaymentFrequency+'&pi='+this.PaymentInterval+'&ep='+this.ExtraPayment+'&ea='+this.ExtraAnnualPayment,
       rejectVisible: false,
-      acceptLabel: "Close",
       accept: () => {
         //Actual logic to perform a confirmation
       }
