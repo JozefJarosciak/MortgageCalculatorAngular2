@@ -1,12 +1,11 @@
 import {Component} from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import _for = require("core-js/fn/symbol/for");
 import * as moment from 'moment/moment';
 
 @Component({
   selector: 'my-app',
-  templateUrl: 'app/index.html',
-  // directives: [UIChart]
+  templateUrl: 'app/index.html'
 })
 
 
@@ -38,14 +37,12 @@ export class AppComponent {
   PayOffDate:any;
   PayOffDateDiff:any;
   ExtraPayment:number;
-  PaymentInterval:any;
-  ExtraAnnualPayment:any;
+  PaymentInterval:number;
+  ExtraAnnualPayment:number;
 
   ChartLabelsArray:any = [];
   ChartDataArray:any = [];
   ChartDataArrayExtra:any = [];
-  private var1: string;
-  private var2: string;
 
 
   /*
@@ -61,17 +58,11 @@ export class AppComponent {
   CompoundPeriod:number;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params: Params) => {
-      this.var1 = params['var1'];
-      this.var2 = params['var2'];
-    });
 
-  console.log(this.var1, this.var2);
 
 
 
@@ -88,6 +79,28 @@ export class AppComponent {
     this.ExtraPayment = 0;
     this.PaymentInterval = 0;
     this.ExtraAnnualPayment = 0;
+
+
+    // in case parameters were passed as part of sharing, assign them to app, similar to this:
+    // http://localhost:3000/?mo=127800.45&ma=76&ir=2.79&fp=2016-10-06&pf=Bi-Weekly&pi=1&ep=250&ea=8000
+    this.route.queryParams.subscribe((params: Params) => {
+
+      // extra payment details
+      if (params['pi']) {this.PaymentInterval = params['pi']; console.log("Passed Query Param (Extra Payment Interval): " + params['pi']);}
+      if (params['ep']) {this.ExtraPayment = parseInt(params['ep']); console.log("Passed Query Param (Extra Payment): " + params['ep']);}
+      if (params['ea']) {this.ExtraAnnualPayment = parseInt(params['ea']); console.log("Passed Query Param (Extra Annual Payment): " + params['ea']);}
+
+      // regular mortgage details
+      if (params['mo']) {this.MortgageAmount = params['mo']; console.log("Passed Query Param (Mortgage Amount): " + params['mo']);}
+      if (params['ma']) {this.MortgageAmortizationInMonths = params['ma']; console.log("Passed Query Param (Mortgage Amortization In Months): " + params['ma']);}
+      if (params['ir']) {this.InterestRate = params['ir']; console.log("Passed Query Param (InterestRate): " + params['ir']);}
+      if (params['pf']) {this.PaymentFrequency = params['pf']; console.log("Passed Query Param (Payment Frequency): " + params['pf']);}
+      if (params['fp']) {this.FirstPaymentDate = params['fp']; console.log("Passed Query Param (First Payment Date): " + params['pf']);}
+
+
+    });
+
+
 
 
     // Start the calculation
