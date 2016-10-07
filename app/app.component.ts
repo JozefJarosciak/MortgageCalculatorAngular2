@@ -2,11 +2,16 @@ import {Component} from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import _for = require("core-js/fn/symbol/for");
 import * as moment from 'moment/moment';
+import {ConfirmationService} from 'primeng/primeng';
 
 @Component({
   selector: 'my-app',
-  templateUrl: 'app/index.html'
+  templateUrl: 'app/index.html',
+  providers: [ConfirmationService]
 })
+
+
+
 
 
 export class AppComponent {
@@ -58,14 +63,24 @@ export class AppComponent {
   CompoundPeriod:number;
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private confirmationService: ConfirmationService
   ) {}
 
+  confirm() {
+    this.confirmationService.confirm({
+      message: 'http://mortgagecalculator123.com/?mo='+this.MortgageAmount+'&ma='+this.MortgageAmortizationInMonths+'&ir='+this.InterestRate+'&fp='+this.FirstPaymentDate+'&pf='+this.PaymentFrequency+'&pi='+this.PaymentInterval+'&ep='+this.ExtraPayment+'&ea='+this.ExtraAnnualPayment,
+      rejectVisible: false,
+      acceptLabel: "Close",
+      accept: () => {
+        //Actual logic to perform a confirmation
+      }
+    });
+  }
+
+
+
   ngOnInit() {
-
-
-
-
 
     // Initialize all the preconfigured values on the first load
     this.MortgageAmount = 300000;
@@ -79,7 +94,6 @@ export class AppComponent {
     this.ExtraPayment = 0;
     this.PaymentInterval = 0;
     this.ExtraAnnualPayment = 0;
-
 
     // in case parameters were passed as part of sharing, assign them to app, similar to this:
     // http://localhost:3000/?mo=127800.45&ma=76&ir=2.79&fp=2016-10-06&pf=Bi-Weekly&pi=1&ep=250&ea=8000
@@ -106,14 +120,6 @@ export class AppComponent {
     // Start the calculation
     this.calculateMortgage();
   }
-
-
-
-
-
-
-
-
 
 
 

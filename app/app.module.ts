@@ -5,6 +5,7 @@ import {AppComponent}  from './app.component';
 import {RootComponent}  from './root.component';
 import {ChartModule} from 'primeng/primeng';
 import {TooltipModule} from 'primeng/primeng';
+import {ConfirmDialogModule} from 'primeng/primeng';
 import { routing, mainRoutingProviders } from './main.routes';
 
 @NgModule({
@@ -15,10 +16,11 @@ import { routing, mainRoutingProviders } from './main.routes';
     mainRoutingProviders,
     ReactiveFormsModule,
     routing,
-    TooltipModule
+    TooltipModule,
+    ConfirmDialogModule
   ],
   declarations: [AppComponent, RootComponent],
   bootstrap: [RootComponent]
 })
 export class AppModule {
-}
+  }

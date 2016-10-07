@@ -161,6 +161,8 @@
          <h4 class="valuelabel">{{PayOffDate}}</h4>
          <h3 class="valuelabel">{{PayOffDateDiff}}</h3>
        </div>
+       <p-confirmDialog header="URL to Copy" icon="fa fa-question-circle" acceptLabel="Close" width="800"></p-confirmDialog>
+       <button type="text" (click)="confirm()" pButton icon="fa-check" label="Share Your Results"></button>
      </div>
 
 
@@ -169,6 +171,9 @@
        <h4 class="heading-left categoryheader">Mortgage Pie Chart</h4>
        <p-chart type="pie" [data]="datapie"></p-chart>
      </div>
+
+
+
 
    </div>
 
