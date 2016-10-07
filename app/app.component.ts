@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import _for = require("core-js/fn/symbol/for");
 import * as moment from 'moment/moment';
 
@@ -43,6 +44,8 @@ export class AppComponent {
   ChartLabelsArray:any = [];
   ChartDataArray:any = [];
   ChartDataArrayExtra:any = [];
+  private var1: string;
+  private var2: string;
 
 
   /*
@@ -57,10 +60,18 @@ export class AppComponent {
    */
   CompoundPeriod:number;
 
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
+    this.route.queryParams.subscribe((params: Params) => {
+      this.var1 = params['var1'];
+      this.var2 = params['var2'];
+    });
 
-
+  console.log(this.var1, this.var2);
 
 
 
