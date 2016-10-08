@@ -68,13 +68,20 @@ export class AppComponent {
   ) {}
 
   confirm() {
+
+    var xmlHttp = new XMLHttpRequest();
+    var theUrl = 'http://www.mortgagecalculator123.com/shorturl/convert.php?u=' + encodeURIComponent('http://mortgagecalculator123.com/?mo=' + this.MortgageAmount + '&ma=' + this.MortgageAmortizationInMonths + '&ir=' + this.InterestRate + '&fp=' + this.FirstPaymentDate + '&pf=' + this.PaymentFrequency + '&pi=' + this.PaymentInterval + '&ep=' + this.ExtraPayment + '&ea=' + this.ExtraAnnualPayment);
+    xmlHttp.open("GET", theUrl, false); // false for synchronous request
+    xmlHttp.send(null);
     this.confirmationService.confirm({
-      message: 'http://mortgagecalculator123.com/?mo='+this.MortgageAmount+'&ma='+this.MortgageAmortizationInMonths+'&ir='+this.InterestRate+'&fp='+this.FirstPaymentDate+'&pf='+this.PaymentFrequency+'&pi='+this.PaymentInterval+'&ep='+this.ExtraPayment+'&ea='+this.ExtraAnnualPayment,
+      message: xmlHttp.responseText,
       rejectVisible: false,
-      accept: () => {
+      accept: function () {
         //Actual logic to perform a confirmation
       }
     });
+
+
   }
 
 
