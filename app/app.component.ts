@@ -105,10 +105,7 @@ export class AppComponent {
     // http://localhost:3000/?mo=127800.45&ma=76&ir=2.79&fp=2016-10-06&pf=Bi-Weekly&pi=1&ep=250&ea=8000
     this.route.queryParams.subscribe((params: Params) => {
 
-      // extra payment details
-      if (params['pi']) {this.PaymentInterval = params['pi']; console.log("Passed Query Param (Extra Payment Interval): " + params['pi']);}
-      if (params['ep']) {this.ExtraPayment = parseInt(params['ep']); console.log("Passed Query Param (Extra Payment): " + params['ep']);}
-      if (params['ea']) {this.ExtraAnnualPayment = parseInt(params['ea']); console.log("Passed Query Param (Extra Annual Payment): " + params['ea']);}
+
 
       // regular mortgage details
       if (params['mo']) {this.MortgageAmount = params['mo']; console.log("Passed Query Param (Mortgage Amount): " + params['mo']);}
@@ -117,7 +114,10 @@ export class AppComponent {
       if (params['pf']) {this.PaymentFrequency = params['pf']; console.log("Passed Query Param (Payment Frequency): " + params['pf']);}
       if (params['fp']) {this.FirstPaymentDate = params['fp']; console.log("Passed Query Param (First Payment Date): " + params['pf']);}
 
-
+      // extra payment details
+      if (params['pi']) {this.PaymentInterval = params['pi']; console.log("Passed Query Param (Extra Payment Interval): " + params['pi']);}
+      if (params['ep']) {this.ExtraPayment = parseInt(params['ep']); console.log("Passed Query Param (Extra Payment): " + params['ep']);}
+      if (params['ea']) {this.ExtraAnnualPayment = parseInt(params['ea']); console.log("Passed Query Param (Extra Annual Payment): " + params['ea']);}
     });
 
 
