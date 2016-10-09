@@ -6,7 +6,7 @@ import {ConfirmationService} from 'primeng/primeng';
 
 @Component({
   selector: 'my-app',
-  templateUrl: 'app/index.html',
+  templateUrl: 'app/main.html',
   providers: [ConfirmationService]
 })
 
