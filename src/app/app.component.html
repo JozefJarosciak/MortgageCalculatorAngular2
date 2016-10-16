@@ -1,0 +1,233 @@
+<div class="container">
+  <div>
+    <img src="assets/img/icon-maple-leaf.jpg">
+    <a class="top-header-title">Canadian Mortgage Calculator</a>
+    <br>
+  </div>
+</div>
+
+
+
+
+<div class="container">
+
+  <div class="row">
+
+    <div class="jumbotron">
+      <div class="container">
+        <p>In Canada, loan interest is compounded semi-annually, rather than monthly as it is in the US. Because of the
+          different compounding schedule, monthly payments in Canada are slightly lower than payments in the US, given
+          the same principal, loan term, and nominal interest rate.</p>
+        <!--  <p class="jumbotext">For example, consider a loan of $250,000 for 20 years at an interest rate of 2.20%. When the rate is compounded monthly, you pay $1,288.52 per month. When the rate is compounded every six months, you pay only $1,287.33 per month. This is a savings of $1.19 every month, which becomes a total savings of $357.00 over the course of the loan.<br></p> -->
+      </div>
+    </div>
+
+
+    <div id="spacer160"></div>
+
+    <div class="col-md-6">
+      <h4 class="heading-left categoryheader">Mortgage Details</h4>
+      <p>Enter your mortgage details:</p>
+      <form role="form">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon mortgageDetailsLabel" data-tooltip="The amount you have borrowed."
+                  data-tooltip-position="bottom">Mortgage Amount</span>
+            <input [(ngModel)]="MortgageAmount" (ngModelChange)="calculateMortgage()" name="MortgageAmount"
+                   type="number" min="100" max="999999999" class="form-control labelMrtgCalc" placeholder="e.g. 100000">
+            <input class="form-control labelMrtgCalcFormatted"
+                   placeholder="{{MortgageAmount | currency:'USD':true:'1.2-2'}}" disabled>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon mortgageDetailsLabel"
+                  data-tooltip="The total number of months it'll take to pay off the mortgage.&#013;Maximum acceptable value: 420 months (40 years)."
+                  data-tooltip-position="bottom">Mortgage Amortization</span>
+            <input [(ngModel)]="MortgageAmortizationInMonths" (ngModelChange)="calculateMortgage()"
+                   name="MortgageAmortizationInMonths" type="number" min="1" class="form-control labelMrtgCalc"
+                   placeholder="e.g. 120 (10 yrs.)">
+            <input class="form-control labelMrtgCalcFormatted"
+                   placeholder="{{MortgageAmortizationConvertedtoYears}} yrs., {{MortgageAmortizationConvertedtoMonths}} mth."
+                   disabled>
+          </div>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon mortgageDetailsLabel"
+                data-tooltip="Nominal interest rate as quoted by the lender. Canadian mortgages are compounded semi-annually."
+                data-tooltip-position="bottom">Annual Interest Rate</span>
+          <input [(ngModel)]="InterestRate" (ngModelChange)="calculateMortgage()" name="InterestRate" type="number"
+                 min="0" max="100" step="0.01" class="form-control labelMrtgCalc" placeholder="e.g. 2.75">
+          <input class="form-control labelMrtgCalcFormatted" placeholder="Per Payment: {{InterestRatePerPayment*100}}%"
+                 disabled>
+        </div>
+        <br>
+        <div class="input-group">
+          <span class="input-group-addon mortgageDetailsLabel"
+                data-tooltip="First Payment Date is the first payment date. Mortgage calculation assumes the end of the first period."
+                data-tooltip-position="bottom">First Payment Date</span>
+          <input [(ngModel)]="FirstPaymentDate" (ngModelChange)="calculateMortgage()" name="FirstPaymentDate"
+                 type="date" value="{{FirstPaymentDate}}" class="form-control labelMrtgCalc">
+        </div>
+        <br>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon mortgageDetailsLabel"
+                  data-tooltip="Determines the number of payments per year.&#013;
+            Annually:      1 (once a year)&#013;
+            Semi-Annually: 2 (twice a year)&#013;
+            Quarterly:     4 times a year&#013;
+            Bi-Monthly:    6 times a year&#013;
+            Monthly:       12 times a year&#013;
+            Semi-Monthly:  24 times a year (2 times per month)&#013;
+            Bi-Weekly:     26 times a year (once every 2 weeks)&#013;
+            Weekly:        52 times a year (once a week)&#013;
+            Acc Bi-Weekly: 26 times a year. 1/2 of monthly payment&#013;
+            Acc Weekly:    52 times a year. 1/4 of monthly payment"
+                  data-tooltip-position="bottom">Payment Frequency <img width="14px" align="top"
+                                                                        src="assets/img/info.png"></span>
+            <select [(ngModel)]="PaymentFrequency" (ngModelChange)="calculateMortgage()" name="PaymentFrequency"
+                    id="formInput119" class="form-control labelMrtgCalc">
+              <option>Annually</option>
+              <option>Semi-Annually</option>
+              <option>Quarterly</option>
+              <option>Bi-Monthly</option>
+              <option>Monthly</option>
+              <option>Semi-Monthly</option>
+              <option>Bi-Weekly</option>
+              <option>Weekly</option>
+              <option>Acc. Bi-Weekly</option>
+              <option>Acc. Weekly</option>
+            </select>
+          </div>
+        </div>
+
+        <p>Enter your extra payment details:</p>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon mortgageDetailsLabel"
+                  data-tooltip="Enter the value of the extra payment in this field, and the payment interval in the next field."
+                  data-tooltip-position="bottom">Extra Payment ($)</span>
+            <input [(ngModel)]="ExtraPayment" (ngModelChange)="calculateMortgage()" name="ExtraPayment" type="number"
+                   min="0" class="form-control labelMrtgCalc" placeholder="e.g. 100" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon mortgageDetailsLabel"
+                  data-tooltip="Specifies that the Extra Payment amount will be made every N payments. For example, if the Payment Frequency is Monthly, enter 1 to make the extra payment every month"
+                  data-tooltip-position="bottom">Payment Interval</span>
+            <input [(ngModel)]="PaymentInterval" (ngModelChange)="calculateMortgage()" name="PaymentInterval"
+                   type="number" min="0" class="form-control labelMrtgCalc" placeholder="e.g. 1" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon mortgageDetailsLabel"
+                  data-tooltip="In addition to the Extra Payment above, you can specify an Extra Annual Payment."
+                  data-tooltip-position="bottom">Extra Annual Payment ($)</span>
+            <input [(ngModel)]="ExtraAnnualPayment" (ngModelChange)="calculateMortgage()" name="ExtraAnnualPayment"
+                   type="number" min="0" class="form-control labelMrtgCalc" z placeholder="e.g. 100" required>
+          </div>
+        </div>
+
+        <!--  Entire Action could be controlled by a button -->
+        <p></p>
+        <button type="button" (click)="calculateMortgage()" class="btn btn-info .btn-lg">Calculate</button>
+
+
+      </form>
+    </div>
+
+
+
+
+    <div class="col-md-6">
+      <h4 class="heading-left categoryheader">Mortgage Calculation</h4>
+      <p>Results of your mortgage calculation:</p>
+      <div class="input-group">
+        <span class="input-group-addon labelgroup">Mortgage Payment</span>
+        <h4 class="valuelabel">{{MortgagePayment | currency:'USD':true:'1.2-2'}} {{PaymentFrequency}}</h4>
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon labelgroup">Total Cost of Loan</span>
+        <h4 class="valuelabel">{{TotalCostofLoan | currency:'USD':true:'1.2-2'}}</h4>
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon labelgroup">Total Interest Paid</span>
+        <h4 class="valuelabel">{{InterestPaidforTerm | currency:'USD':true:'1.2-2'}}</h4>
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon labelgroup">Total # of Payments</span>
+        <h4 class="valuelabel">{{TotalNumberofPayments}}</h4>
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon labelgroup">Pay-Off Date</span>
+        <h4 class="valuelabel">{{PayOffDate}}</h4>
+        <h3 class="valuelabel">{{PayOffDateDiff}}</h3>
+      </div>
+      <p-confirmDialog header="URL to Copy" icon="fa fa-question-circle" acceptLabel="Close" width="300"></p-confirmDialog>
+      <button class="labelgroup" type="text" (click)="confirm()" pButton icon="fa-check" label="Share Your Results"></button>
+    </div>
+
+
+    <div class="col-md-5">
+      <br>
+      <h4 class="heading-left categoryheader">Mortgage Pie Chart</h4>
+      <p-chart type="pie" [data]="datapie"></p-chart>
+    </div>
+
+
+
+
+  </div>
+
+
+  <div class="row">
+
+
+    <h4 class="heading-left categoryheader">Mortgage Bar Chart</h4>
+    <p>Results of your mortgage calculation:</p>
+    <p-chart type="bar" [data]="data"></p-chart>
+
+  </div>
+
+
+  <br>
+  <h4 class="heading-left categoryheader">Amortization Schedule</h4>
+  <table id="customers">
+    <thead>
+    <tr>
+      <th>No.</th>
+      <th>Due Date</th>
+      <th>Payment</th>
+      <th>Extra Payment</th>
+      <th>Interest</th>
+      <th>Principal</th>
+      <th>Balance</th>
+    </tr>
+    </thead>
+
+
+    <tbody *ngFor="let group of groups">
+    <tr *ngFor="let member of group.members">
+      <td>{{ member.indexArray }}</td>
+      <td>{{ member.dueArray }}</td>
+      <td>{{ member.paymentArray | currency:'USD':true:'1.2-2'}}</td>
+      <td>{{ member.extraPaymentArray | currency:'USD':true:'1.2-2'}}</td>
+      <td>{{ member.interestPaidArray | currency:'USD':true:'1.2-2'}}</td>
+      <td>{{ member.principalArray | currency:'USD':true:'1.2-2'}}</td>
+      <td>{{ member.balanceArray | currency:'USD':true:'1.2-2'}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+
+  <br><br>
+
+  <footer>
+    <p>© ETX Software Inc. 2016</p>
+  </footer>
+</div>
