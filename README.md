@@ -1,6 +1,6 @@
 # Canadian Mortgage Calculator (Angular 2 & Typescript)
 
-This repository holds the TypeScript/Angular2 source code of the Canadian Mortgage Calculator: [MortgageCalculator123.com](http://www.mortgagecalculator123.com/). The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.17.
+This repository holds the TypeScript/Angular2 source code of the Canadian Mortgage Calculator: [http://jarosciak.com/mortgagecalculator](http://jarosciak.com/mortgagecalculator). The project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.17.
 
 ## Screenshots
 ![alt tag](http://i.imgur.com/N7VVOlL.jpg)
